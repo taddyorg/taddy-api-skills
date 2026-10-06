@@ -1,0 +1,46 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "taddy-podcast-api",
+  "version": "0.1.0",
+  "description": "GraphQL schema, Docs and best practices to help integrate Taddy Podcast API into your app, including details on any podcast and episode, full-text search, latest episode from multiple podcasts, Apple Podcasts top charts, episode transcripts, and real-time updates via webhooks.",
+  "author": {
+    "name": "Taddy API",
+    "email": "danny@taddy.org"
+  },
+  "homepage": "https://taddy.org/developers/podcast-api",
+  "repository": "https://github.com/taddyorg/taddy-api-skills",
+  "license": "MIT",
+  "keywords": [
+    "taddy",
+    "podcast",
+    "podcast-api",
+    "transcripts",
+    "episode-transcripts",
+    "podcast-search",
+    "podcast-search-api",
+    "webhooks",
+    "graphql"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Taddy Podcast API",
+        "shortDescription": "Podcast API schema and docs",
+        "longDescription": "GraphQL schema, Docs and best practices to help integrate Taddy Podcast API into your app, including details on any podcast and episode, full-text search, latest episode from multiple podcasts, Apple Podcasts top charts, episode transcripts, and real-time updates via webhooks.",
+        "developerName": "Taddy API",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Interactive",
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://taddy.org/developers/podcast-api",
+        "privacyPolicyURL": "https://taddy.org/terms-of-service/privacy-policy",
+        "termsOfServiceURL": "https://taddy.org/terms-of-service",
+        "supportURL": "https://taddy.org/terms-of-service",
+        "logo": "./assets/taddy-logo.png",
+        "composerIcon": "./assets/taddy-logo.png"
+      }
+    }
+  }
+}

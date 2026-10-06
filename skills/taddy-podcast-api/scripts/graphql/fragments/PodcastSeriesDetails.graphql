@@ -1,0 +1,13 @@
+#import "./MiniPodcastSeriesDetails.graphql"
+
+# Everything a podcast detail page renders. Episodes are requested by the query, not here,
+# so the page size stays explicit and bounded.
+fragment podcastSeriesDetails on PodcastSeries {
+  ...miniPodcastSeriesDetails
+  description(shouldStripHtmlTags: true)
+  websiteUrl
+  language
+  genres
+  isCompleted
+  childrenHash
+}

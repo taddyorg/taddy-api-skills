@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "taddy-api",
+  "description": "GraphQL Schema, Docs, and best practices for Taddy Podcast API",
+  "owner": {
+    "name": "Taddy API",
+    "email": "danny@taddy.org"
+  },
+  "plugins": [
+    {
+      "name": "taddy-podcast-api",
+      "description": "GraphQL schema, Docs and best practices to help integrate Taddy Podcast API into your app, including details on any podcast and episode, full-text search, latest episode from multiple podcasts, Apple Podcasts top charts, episode transcripts, and real-time updates via webhooks.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Taddy API"
+      },
+      "category": "development",
+      "source": "./",
+      "homepage": "https://taddy.org/developers/podcast-api"
+    }
+  ]
+}

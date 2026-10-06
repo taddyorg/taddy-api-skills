@@ -1,0 +1,1811 @@
+""" Directive to override the default cost of a field """
+directive @cost(value: Float!) on FIELD_DEFINITION
+
+""" Directive to override the default cost factor (list multiplier) of a field 
+"""
+directive @costFactor(value: Float!) on FIELD_DEFINITION
+
+""" An alternate enclosure for a podcast episode (from the tag <podcast:alternateEnclosure> in the RSS feed). 
+"""
+type AlternateEnclosureLink {
+  """ (Optional) Bitrate of media """
+  bitrate: String
+
+  """ (Optional) RFC 6381 codec string """
+  codecs: String
+
+  """ (Optional) If true, this is the same content as the standard enclosure 
+  """
+  default: Boolean
+
+  """ (Optional) Height in pixels (for video) """
+  height: Int
+
+  """ (Optional) BCP 47 language tag """
+  lang: String
+
+  """ File size in bytes. Typed as Float (not Int) to support 64-bit integers (very large files) 
+  """
+  length: Float
+
+  """ (Optional) Relationship/grouping identifier """
+  rel: String
+
+  """ (Optional) Content type of this specific source, if different from the media type 
+  """
+  sourceContentType: String
+
+  """ (Optional) Human-readable title """
+  title: String
+
+  """ MIME type of the media """
+  type: String
+
+  """ URI to the media file """
+  uri: String
+}
+
+""" Chapters (Sections) that make up the podcast episode """
+type Chapter {
+  """ The unique identifier for the chapter """
+  id: ID
+
+  """ The start timecode of the chapter in milliseconds """
+  startTimecode: Int
+
+  """ The title of the chapter """
+  title: String
+}
+
+""" A url link to the chapters for an episode """
+type ChapterLink {
+  """ If the transcript is exclusive to Taddy API Business users and you need an API key to access it 
+  """
+  isTaddyExclusive: Boolean
+
+  """ Mime type of file """
+  type: String
+
+  """ The url to the chapter """
+  url: String
+}
+
+""" Layout of Comic Series """
+enum ComicSeriesLayout {
+  LEFT_TO_RIGHT
+  PAGE
+  RIGHT_TO_LEFT
+  VERTICAL_SCROLL_TOP_TO_BOTTOM
+}
+
+""" Type of Comic Series """
+enum ComicSeriesType {
+  AMERICAN_STYLE_COMIC
+  ANTHOLOGY
+  GRAPHIC_NOVEL
+  MANGA
+  MANHUA
+  MANHWA
+  ONE_SHOT
+  WEBTOON
+}
+
+""" Content rating for different media types. Follows format: TYPE_RATING 
+"""
+enum ContentRating {
+  COMICSERIES_ADULTS
+  COMICSERIES_BABY
+  COMICSERIES_EROTICA
+  COMICSERIES_KIDS
+  COMICSERIES_MATURE_TEENS
+  COMICSERIES_PORNOGRAPHY @deprecated(reason: "Use COMICSERIES_EROTICA instead")
+  COMICSERIES_TEENS
+}
+
+""" Content roles for different media types. Follows format: TYPE_ROLE_SUBROLE 
+"""
+enum ContentRole {
+  COMICSERIES_ARTIST
+  COMICSERIES_ARTIST_COLORIST
+  COMICSERIES_ARTIST_INKER
+  COMICSERIES_ARTIST_LETTERER
+  COMICSERIES_ARTIST_PENCILER
+  COMICSERIES_EDITOR
+  COMICSERIES_PRODUCER
+  COMICSERIES_TRANSLATOR
+  COMICSERIES_WRITER
+  PODCASTSERIES_ANNOUNCER
+  PODCASTSERIES_ASSISTANT_CAMERA
+  PODCASTSERIES_ASSISTANT_DIRECTOR
+  PODCASTSERIES_ASSISTANT_EDITOR
+  PODCASTSERIES_ASSOCIATE_PRODUCER
+  PODCASTSERIES_AUDIO_EDITOR
+  PODCASTSERIES_AUDIO_ENGINEER
+  PODCASTSERIES_AUTHOR
+  PODCASTSERIES_BOOKING_COORDINATOR
+  PODCASTSERIES_CAMERA_GRIP
+  PODCASTSERIES_CAMERA_OPERATOR
+  PODCASTSERIES_COMPOSER
+  PODCASTSERIES_CONTENT_MANAGER
+  PODCASTSERIES_COVER_ART_DESIGNER
+  PODCASTSERIES_CO_HOST
+  PODCASTSERIES_CO_WRITER
+  PODCASTSERIES_CREATIVE_DIRECTOR
+  PODCASTSERIES_DEVELOPMENT_PRODUCER
+  PODCASTSERIES_DIRECTOR
+  PODCASTSERIES_EDITOR
+  PODCASTSERIES_EDITORIAL_DIRECTOR
+  PODCASTSERIES_EXECUTIVE_PRODUCER
+  PODCASTSERIES_FACT_CHECKER
+  PODCASTSERIES_FOLEY_ARTIST
+  PODCASTSERIES_GRAPHIC_DESIGNER
+  PODCASTSERIES_GUEST
+  PODCASTSERIES_GUEST_HOST
+  PODCASTSERIES_GUEST_WRITER
+  PODCASTSERIES_HOST
+  PODCASTSERIES_LIGHTING_DESIGNER
+  PODCASTSERIES_LOGGER
+  PODCASTSERIES_MANAGING_EDITOR
+  PODCASTSERIES_MARKETING_MANAGER
+  PODCASTSERIES_MISC_CONSULTANT
+  PODCASTSERIES_MISC_INTERN
+  PODCASTSERIES_MUSIC_CONTRIBUTOR
+  PODCASTSERIES_MUSIC_PRODUCTION
+  PODCASTSERIES_NARRATOR
+  PODCASTSERIES_POST_PRODUCTION_ENGINEER
+  PODCASTSERIES_PRODUCER
+  PODCASTSERIES_PRODUCTION_ASSISTANT
+  PODCASTSERIES_PRODUCTION_COORDINATOR
+  PODCASTSERIES_REMOTE_RECORDING_ENGINEER
+  PODCASTSERIES_REPORTER
+  PODCASTSERIES_RESEARCHER
+  PODCASTSERIES_SALES_MANAGER
+  PODCASTSERIES_SALES_REPRESENTATIVE
+  PODCASTSERIES_SCRIPT_COORDINATOR
+  PODCASTSERIES_SCRIPT_EDITOR
+  PODCASTSERIES_SENIOR_PRODUCER
+  PODCASTSERIES_SOCIAL_MEDIA_MANAGER
+  PODCASTSERIES_SONGWRITER
+  PODCASTSERIES_SOUND_DESIGNER
+  PODCASTSERIES_STORY_EDITOR
+  PODCASTSERIES_STUDIO_COORDINATOR
+  PODCASTSERIES_TECHNICAL_DIRECTOR
+  PODCASTSERIES_TECHNICAL_MANAGER
+  PODCASTSERIES_THEME_MUSIC
+  PODCASTSERIES_TRANSCRIBER
+  PODCASTSERIES_TRANSLATOR
+  PODCASTSERIES_VOICE_ACTOR
+  PODCASTSERIES_WRITER
+}
+
+""" Countries (ISO 3166-1 https://en.wikipedia.org/wiki/ISO_3166-1) """
+enum Country {
+  AFGHANISTAN
+  ALAND_ISLANDS
+  ALBANIA
+  ALGERIA
+  AMERICAN_SAMOA
+  ANDORRA
+  ANGOLA
+  ANGUILLA
+  ANTARCTICA
+  ANTIGUA_AND_BARBUDA
+  ARGENTINA
+  ARMENIA
+  ARUBA
+  AUSTRALIA
+  AUSTRIA
+  AZERBAIJAN
+  BAHAMAS
+  BAHRAIN
+  BANGLADESH
+  BARBADOS
+  BELARUS
+  BELGIUM
+  BELIZE
+  BENIN
+  BERMUDA
+  BHUTAN
+  BOLIVIA_PLURINATIONAL_STATE_OF
+  BONAIRE_SINT_EUSTATIUS_AND_SABA
+  BOSNIA_AND_HERZEGOVINA
+  BOTSWANA
+  BOUVET_ISLAND
+  BRAZIL
+  BRITISH_INDIAN_OCEAN_TERRITORY_THE
+  BRUNEI_DARUSSALAM
+  BULGARIA
+  BURKINA_FASO
+  BURUNDI
+  CABO_VERDE
+  CAMBODIA
+  CAMEROON
+  CANADA
+  CAYMAN_ISLANDS
+  CENTRAL_AFRICAN_REPUBLIC
+  CHAD
+  CHILE
+  CHINA
+  CHRISTMAS_ISLAND
+  COCOS_KEELING_ISLANDS
+  COLOMBIA
+  COMOROS
+  CONGO
+  CONGO_THE_DEMOCRATIC_REPUBLIC_OF
+  COOK_ISLANDS
+  COSTA_RICA
+  COTE_D_IVOIRE
+  CROATIA
+  CUBA
+  CURACAO
+  CYPRUS
+  CZECHIA
+  DENMARK
+  DJIBOUTI
+  DOMINICA
+  DOMINICAN_REPUBLIC
+  ECUADOR
+  EGYPT
+  EL_SALVADOR
+  EQUATORIAL_GUINEA
+  ERITREA
+  ESTONIA
+  ESWATINI
+  ETHIOPIA
+  FALKLAND_ISLANDS_THE_MALVINAS
+  FAROE_ISLANDS
+  FIJI
+  FINLAND
+  FRANCE
+  FRENCH_GUIANA
+  FRENCH_POLYNESIA
+  FRENCH_SOUTHERN_TERRITORIES
+  GABON
+  GAMBIA
+  GEORGIA
+  GERMANY
+  GHANA
+  GIBRALTAR
+  GREECE
+  GREENLAND
+  GRENADA
+  GUADELOUPE
+  GUAM
+  GUATEMALA
+  GUERNSEY
+  GUINEA
+  GUINEA_BISSAU
+  GUYANA
+  HAITI
+  HEARD_ISLAND_AND_MCDONALD_ISLANDS
+  HOLY_SEE
+  HONDURAS
+  HONG_KONG
+  HUNGARY
+  ICELAND
+  INDIA
+  INDONESIA
+  IRAN
+  IRAQ
+  IRELAND
+  ISLE_OF_MAN
+  ISRAEL
+  ITALY
+  JAMAICA
+  JAPAN
+  JERSEY
+  JORDAN
+  KAZAKHSTAN
+  KENYA
+  KIRIBATI
+  KOREA_NORTH
+  KOREA_SOUTH
+  KUWAIT
+  KYRGYZSTAN
+  LAO_PEOPLES_DEMOCRATIC_REPUBLIC_THE
+  LATVIA
+  LEBANON
+  LESOTHO
+  LIBERIA
+  LIBYA
+  LIECHTENSTEIN
+  LITHUANIA
+  LUXEMBOURG
+  MACAO
+  MADAGASCAR
+  MALAWI
+  MALAYSIA
+  MALDIVES
+  MALI
+  MALTA
+  MARSHALL_ISLANDS
+  MARTINIQUE
+  MAURITANIA
+  MAURITIUS
+  MAYOTTE
+  MEXICO
+  MICRONESIA_FEDERATED_STATES
+  MINOR_OUTLYING_ISLANDS_US
+  MOLDOVA_THE_REPUBLIC
+  MONACO
+  MONGOLIA
+  MONTENEGRO
+  MONTSERRAT
+  MOROCCO
+  MOZAMBIQUE
+  MYANMAR
+  NAMIBIA
+  NAURU
+  NEPAL
+  NETHERLANDS
+  NEW_CALEDONIA
+  NEW_ZEALAND
+  NICARAGUA
+  NIGER
+  NIGERIA
+  NIUE
+  NORFOLK_ISLAND
+  NORTHERN_MARIANA_ISLANDS
+  NORTH_MACEDONIA
+  NORWAY
+  OMAN
+  PAKISTAN
+  PALAU
+  PALESTINE_STATE
+  PANAMA
+  PAPUA_NEW_GUINEA
+  PARAGUAY
+  PERU
+  PHILIPPINES
+  PITCAIRN
+  POLAND
+  PORTUGAL
+  PUERTO_RICO
+  QATAR
+  REUNION
+  ROMANIA
+  RUSSIA
+  RWANDA
+  SAINT_BARTHELEMY
+  SAINT_HELENA_ASCENSION_AND_TRISTAN_DA_CUNHA
+  SAINT_KITTS_AND_NEVIS
+  SAINT_LUCIA
+  SAINT_MARTIN_FRENCH_PART
+  SAINT_PIERRE_AND_MIQUELON
+  SAINT_VINCENT_AND_THE_GRENADINES
+  SAMOA
+  SAN_MARINO
+  SAO_TOME_AND_PRINCIPE
+  SAUDI_ARABIA
+  SENEGAL
+  SERBIA
+  SEYCHELLES
+  SIERRA_LEONE
+  SINGAPORE
+  SINT_MAARTEN_DUTCH_PART
+  SLOVAKIA
+  SLOVENIA
+  SOLOMON_ISLANDS
+  SOMALIA
+  SOUTH_AFRICA
+  SOUTH_GEORGIA_AND_THE_SOUTH_SANDWICH_ISLANDS
+  SOUTH_SUDAN
+  SPAIN
+  SRI_LANKA
+  SUDAN
+  SURINAME
+  SVALBARD_AND_JAN_MAYEN
+  SWEDEN
+  SWITZERLAND
+  SYRIA
+  TAIWAN
+  TAJIKISTAN
+  TANZANIA
+  THAILAND
+  TIMOR_LESTE
+  TOGO
+  TOKELAU
+  TONGA
+  TRINIDAD_AND_TOBAGO
+  TUNISIA
+  TURKEY
+  TURKMENISTAN
+  TURKS_AND_CAICOS_ISLANDS
+  TUVALU
+  UGANDA
+  UKRAINE
+  UNITED_ARAB_EMIRATES
+  UNITED_KINGDOM
+  UNITED_STATES_OF_AMERICA
+  URUGUAY
+  UZBEKISTAN
+  VANUATU
+  VENEZUELA
+  VIETNAM
+  VIRGIN_ISLANDS_BRITISH
+  VIRGIN_ISLANDS_US
+  WALLIS_AND_FUTUNA
+  WESTERN_SAHARA
+  YEMEN
+  ZAMBIA
+  ZIMBABWE
+}
+
+""" Feed Refresh Details """
+type FeedRefreshDetails {
+  """ Date when the feed was refreshed last (Epoch time in seconds) """
+  dateLastRefreshed: Int
+
+  """ How often a feed is refreshed """
+  priority: FeedRefreshPriority
+
+  """ The reason why feed has a LOW, INACTIVE, or NEVER priority """
+  priorityReason: FeedRefreshPriorityReason
+
+  """ Taddy's unique identifier """
+  uuid: ID
+
+  """ Websub Details (if available)"""
+  websubDetails: WebsubDetails
+}
+
+""" Different categories for how often a feed is refreshed """
+enum FeedRefreshPriority {
+  """ Feed is checked every 2 hours for new updates """
+  HIGH
+
+  """ Feed is checked once a week for new updates """
+  INACTIVE
+
+  """ Feed is checked once a month for new updates """
+  LOW
+
+  """ Feed is checked every 6 hours for new updates """
+  MEDIUM
+
+  """ Feed is no longer checked for updates """
+  NEVER
+
+  """ Feed is checked once a day for new updates """
+  REGULAR
+
+  """ Feed checked immediately (within 30 mins) after it has been updated (via a Websub notification)
+  """
+  WEBSUB
+}
+
+""" The different types of reasons why a feed has a LOW, INACTIVE, or NEVER priority 
+"""
+enum FeedRefreshPriorityReason {
+  """ There is another feed in our database that links to the same content """
+  DUPLICATE_FEED
+
+  """ Error parsing document when trying to check the feed for new updates"""
+  ERROR_PARSING_FEED
+
+  """ Error when trying to load the feed url (404 error, etc)"""
+  FEED_URL_NOT_WORKING
+
+  """ Feed has not had any updates in the last 12 months """
+  INACTIVE_FOR_OVER_1_YEAR
+}
+
+""" Genres for different media types. Follows format: TYPE_GENRE_SUBGENRE 
+"""
+enum Genre {
+  COMICSERIES_ACTION
+  COMICSERIES_ANIMALS
+  COMICSERIES_BL
+  COMICSERIES_COMEDY
+  COMICSERIES_CRIME
+  COMICSERIES_DRAMA
+  COMICSERIES_DYSTOPIA
+  COMICSERIES_EDUCATIONAL
+  COMICSERIES_FANTASY
+  COMICSERIES_GAMING
+  COMICSERIES_GL
+  COMICSERIES_HAREM
+  COMICSERIES_HIGH_SCHOOL
+  COMICSERIES_HISTORICAL
+  COMICSERIES_HORROR
+  COMICSERIES_ISEKAI
+  COMICSERIES_LGBTQ
+  COMICSERIES_MYSTERY
+  COMICSERIES_POST_APOCALYPTIC
+  COMICSERIES_ROMANCE
+  COMICSERIES_SCI_FI
+  COMICSERIES_SLICE_OF_LIFE
+  COMICSERIES_SPORTS
+  COMICSERIES_SUPERHERO
+  COMICSERIES_SUPERNATURAL
+  COMICSERIES_THRILLER
+  COMICSERIES_ZOMBIES
+  PODCASTSERIES_ARTS
+  PODCASTSERIES_ARTS_BOOKS
+  PODCASTSERIES_ARTS_DESIGN
+  PODCASTSERIES_ARTS_FASHION_AND_BEAUTY
+  PODCASTSERIES_ARTS_FOOD
+  PODCASTSERIES_ARTS_PERFORMING_ARTS
+  PODCASTSERIES_ARTS_VISUAL_ARTS
+  PODCASTSERIES_BUSINESS
+  PODCASTSERIES_BUSINESS_CAREERS
+  PODCASTSERIES_BUSINESS_ENTREPRENEURSHIP
+  PODCASTSERIES_BUSINESS_INVESTING
+  PODCASTSERIES_BUSINESS_MANAGEMENT
+  PODCASTSERIES_BUSINESS_MARKETING
+  PODCASTSERIES_BUSINESS_NON_PROFIT
+  PODCASTSERIES_COMEDY
+  PODCASTSERIES_COMEDY_IMPROV
+  PODCASTSERIES_COMEDY_INTERVIEWS
+  PODCASTSERIES_COMEDY_STANDUP
+  PODCASTSERIES_EDUCATION
+  PODCASTSERIES_EDUCATION_COURSES
+  PODCASTSERIES_EDUCATION_HOW_TO
+  PODCASTSERIES_EDUCATION_LANGUAGE_LEARNING
+  PODCASTSERIES_EDUCATION_SELF_IMPROVEMENT
+  PODCASTSERIES_FICTION
+  PODCASTSERIES_FICTION_COMEDY_FICTION
+  PODCASTSERIES_FICTION_DRAMA
+  PODCASTSERIES_FICTION_SCIENCE_FICTION
+  PODCASTSERIES_GOVERNMENT
+  PODCASTSERIES_HEALTH_AND_FITNESS
+  PODCASTSERIES_HEALTH_AND_FITNESS_ALTERNATIVE_HEALTH
+  PODCASTSERIES_HEALTH_AND_FITNESS_FITNESS
+  PODCASTSERIES_HEALTH_AND_FITNESS_MEDICINE
+  PODCASTSERIES_HEALTH_AND_FITNESS_MENTAL_HEALTH
+  PODCASTSERIES_HEALTH_AND_FITNESS_NUTRITION
+  PODCASTSERIES_HEALTH_AND_FITNESS_SEXUALITY
+  PODCASTSERIES_HISTORY
+  PODCASTSERIES_KIDS_AND_FAMILY
+  PODCASTSERIES_KIDS_AND_FAMILY_EDUCATION_FOR_KIDS
+  PODCASTSERIES_KIDS_AND_FAMILY_PARENTING
+  PODCASTSERIES_KIDS_AND_FAMILY_PETS_AND_ANIMALS
+  PODCASTSERIES_KIDS_AND_FAMILY_STORIES_FOR_KIDS
+  PODCASTSERIES_LEISURE
+  PODCASTSERIES_LEISURE_ANIMATION_AND_MANGA
+  PODCASTSERIES_LEISURE_AUTOMOTIVE
+  PODCASTSERIES_LEISURE_AVIATION
+  PODCASTSERIES_LEISURE_CRAFTS
+  PODCASTSERIES_LEISURE_GAMES
+  PODCASTSERIES_LEISURE_HOBBIES
+  PODCASTSERIES_LEISURE_HOME_AND_GARDEN
+  PODCASTSERIES_LEISURE_VIDEO_GAMES
+  PODCASTSERIES_MUSIC
+  PODCASTSERIES_MUSIC_COMMENTARY
+  PODCASTSERIES_MUSIC_HISTORY
+  PODCASTSERIES_MUSIC_INTERVIEWS
+  PODCASTSERIES_NEWS
+  PODCASTSERIES_NEWS_BUSINESS
+  PODCASTSERIES_NEWS_COMMENTARY
+  PODCASTSERIES_NEWS_DAILY_NEWS
+  PODCASTSERIES_NEWS_ENTERTAINMENT
+  PODCASTSERIES_NEWS_POLITICS
+  PODCASTSERIES_NEWS_SPORTS
+  PODCASTSERIES_NEWS_TECH
+  PODCASTSERIES_RELIGION_AND_SPIRITUALITY
+  PODCASTSERIES_RELIGION_AND_SPIRITUALITY_BUDDHISM
+  PODCASTSERIES_RELIGION_AND_SPIRITUALITY_CHRISTIANITY
+  PODCASTSERIES_RELIGION_AND_SPIRITUALITY_HINDUISM
+  PODCASTSERIES_RELIGION_AND_SPIRITUALITY_ISLAM
+  PODCASTSERIES_RELIGION_AND_SPIRITUALITY_JUDAISM
+  PODCASTSERIES_RELIGION_AND_SPIRITUALITY_RELIGION
+  PODCASTSERIES_RELIGION_AND_SPIRITUALITY_SPIRITUALITY
+  PODCASTSERIES_SCIENCE
+  PODCASTSERIES_SCIENCE_ASTRONOMY
+  PODCASTSERIES_SCIENCE_CHEMISTRY
+  PODCASTSERIES_SCIENCE_EARTH_SCIENCES
+  PODCASTSERIES_SCIENCE_LIFE_SCIENCES
+  PODCASTSERIES_SCIENCE_MATHEMATICS
+  PODCASTSERIES_SCIENCE_NATURAL_SCIENCES
+  PODCASTSERIES_SCIENCE_NATURE
+  PODCASTSERIES_SCIENCE_PHYSICS
+  PODCASTSERIES_SCIENCE_SOCIAL_SCIENCES
+  PODCASTSERIES_SOCIETY_AND_CULTURE
+  PODCASTSERIES_SOCIETY_AND_CULTURE_DOCUMENTARY
+  PODCASTSERIES_SOCIETY_AND_CULTURE_PERSONAL_JOURNALS
+  PODCASTSERIES_SOCIETY_AND_CULTURE_PHILOSOPHY
+  PODCASTSERIES_SOCIETY_AND_CULTURE_PLACES_AND_TRAVEL
+  PODCASTSERIES_SOCIETY_AND_CULTURE_RELATIONSHIPS
+  PODCASTSERIES_SPORTS
+  PODCASTSERIES_SPORTS_BASEBALL
+  PODCASTSERIES_SPORTS_BASKETBALL
+  PODCASTSERIES_SPORTS_CRICKET
+  PODCASTSERIES_SPORTS_FANTASY_SPORTS
+  PODCASTSERIES_SPORTS_FOOTBALL
+  PODCASTSERIES_SPORTS_GOLF
+  PODCASTSERIES_SPORTS_HOCKEY
+  PODCASTSERIES_SPORTS_RUGBY
+  PODCASTSERIES_SPORTS_RUNNING
+  PODCASTSERIES_SPORTS_SOCCER
+  PODCASTSERIES_SPORTS_SWIMMING
+  PODCASTSERIES_SPORTS_TENNIS
+  PODCASTSERIES_SPORTS_VOLLEYBALL
+  PODCASTSERIES_SPORTS_WILDERNESS
+  PODCASTSERIES_SPORTS_WRESTLING
+  PODCASTSERIES_TECHNOLOGY
+  PODCASTSERIES_TRUE_CRIME
+  PODCASTSERIES_TV_AND_FILM
+  PODCASTSERIES_TV_AND_FILM_AFTER_SHOWS
+  PODCASTSERIES_TV_AND_FILM_FILM_REVIEWS
+  PODCASTSERIES_TV_AND_FILM_HISTORY
+  PODCASTSERIES_TV_AND_FILM_INTERVIEWS
+  PODCASTSERIES_TV_AND_FILM_TV_REVIEWS
+}
+
+""" Languages (ISO 639-2 https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) 
+"""
+enum Language {
+  ABKHAZIAN
+  AFAR
+  AFRIKAANS
+  AKAN
+  ALBANIAN
+  AMHARIC
+  ARABIC
+  ARAGONESE
+  ARMENIAN
+  ASSAMESE
+  AVARIC
+  AVESTAN
+  AYMARA
+  AZERBAIJANI
+  BAMBARA
+  BASHKIR
+  BASQUE
+  BELARUSIAN
+  BENGALI
+  BIHARI_LANGUAGES
+  BISLAMA
+  BOSNIAN
+  BRETON
+  BULGARIAN
+  BURMESE
+  CENTRAL_KHMER
+  CHAMORRO
+  CHECHEN
+  CHICHEWA_CHEWA_NYANJA
+  CHINESE
+  CHURCH_SLAVONIC
+  CHUVASH
+  CORNISH
+  CORSICAN
+  CREE
+  CROATIAN
+  CZECH
+  DANISH
+  DHIVEHI_MALDIVIAN
+  DUTCH_FLEMISH
+  DZONGKHA
+  ENGLISH
+  ESPERANTO
+  ESTONIAN
+  EWE
+  FAROESE
+  FARSI
+  FIJIAN
+  FINNISH
+  FRENCH
+  FULAH
+  GAELIC
+  GALICIAN
+  GANDA
+  GEORGIAN
+  GERMAN
+  GIKUYU
+  GREEK
+  GUARANI
+  GUJARATI
+  HAITIAN_CREOLE
+  HAUSA
+  HEBREW
+  HERERO
+  HINDI
+  HIRI_MOTU
+  HUNGARIAN
+  ICELANDIC
+  IDO
+  IGBO
+  INDONESIAN
+  INTERLINGUA
+  INTERLINGUE_OCCIDENTAL
+  INUKTITUT
+  INUPIAQ
+  IRISH
+  ITALIAN
+  JAPANESE
+  JAVANESE
+  KALAALLISUT_GREENLANDIC
+  KANNADA
+  KANURI
+  KASHMIRI
+  KAZAKH
+  KINYARWANDA
+  KOMI
+  KONGO
+  KOREAN
+  KURDISH
+  KWANYAMA
+  KYRGYZ
+  LAO
+  LATIN
+  LATVIAN
+  LETZEBURGESCH
+  LIMBURGISH
+  LINGALA
+  LITHUANIAN
+  LUBA_KATANGA
+  MACEDONIAN
+  MALAGASY
+  MALAY
+  MALAYALAM
+  MALTESE
+  MANX
+  MAORI
+  MARATHI
+  MARSHALLESE
+  MONGOLIAN
+  NAURU
+  NAVAJO
+  NDONGA
+  NEPALI
+  NORTHERN_SAMI
+  NORTH_NDEBELE
+  NORWEGIAN
+  NORWEGIAN_BOKMAL
+  NORWEGIAN_NYNORSK
+  NUOSU_SICHUAN_YI
+  OCCITAN
+  OJIBWA
+  ORIYA
+  OROMO
+  OSSETIAN
+  PALI
+  PASHTO
+  POLISH
+  PORTUGUESE
+  PUNJABI
+  QUECHUA
+  ROMANIAN_MOLDOVAN
+  ROMANSH
+  RUNDI
+  RUSSIAN
+  SAMOAN
+  SANGO
+  SANSKRIT
+  SARDINIAN
+  SERBIAN
+  SHONA
+  SINDHI
+  SINHALA
+  SLOVAK
+  SLOVENIAN
+  SOMALI
+  SOTHO
+  SOUTH_NDEBELE
+  SPANISH
+  SUNDANESE
+  SWAHILI
+  SWATI
+  SWEDISH
+  TAGALOG
+  TAHITIAN
+  TAJIK
+  TAMIL
+  TATAR
+  TELUGU
+  THAI
+  TIBETAN
+  TIGRINYA
+  TONGA
+  TSONGA
+  TSWANA
+  TURKISH
+  TURKMEN
+  TWI
+  UKRAINIAN
+  URDU
+  UYGHUR
+  UZBEK
+  VALENCIAN_CATALAN
+  VENDA
+  VIETNAMESE
+  VOLAPUK
+  WALLOON
+  WELSH
+  WESTERN_FRISIAN
+  WOLOF
+  XHOSA
+  YIDDISH
+  YORUBA
+  ZHUANG
+  ZULU
+}
+
+""" Please go to https://taddy.org/developers for full documentation of the API 
+"""
+type Mutation {
+  addUuidToWebhookFilterAllowlist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
+  addUuidToWebhookFilterBlocklist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
+  addWebhookFilter(filter: WebhookFilterInput!, webhookId: ID!): Webhook
+  addWebhookUrlForUser(endpointUrl: String!, webhookEvents: [String!]!): Webhook
+  deleteUuidFromWebhookFilterAllowlist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
+  deleteUuidFromWebhookFilterBlocklist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
+  deleteWebhookFilter(filterUuid: ID!, webhookId: ID!): Webhook
+  deleteWebhookForUser(id: ID!): ID
+
+  """ Send a mock webhook event to test filters and endpoint delivery. Returns true if event was sent. 
+  """
+  mockWebhookEvent(action: WebhookEventActionType!, contentUuid: String!, taddyType: String!, webhookId: ID!): Boolean
+
+  """ Replay all failed webhook events for a webhook. Returns the number of events successfully replayed. 
+  """
+  replayFailedWebhookEvents(webhookId: ID!): Int
+  updateWebhookFilter(filter: WebhookFilterInput!, filterUuid: ID!, webhookId: ID!): Webhook
+  updateWebhookForUser(endpointUrl: String!, id: ID!, webhookEvents: [String!]!): Webhook
+}
+
+type Person {
+  """ The url of the person's image """
+  imageUrl: String
+
+  """ (Experimental) Whether the person has been extracted automatically from transcript 
+  """
+  isAutoGenerated: Boolean @deprecated(reason: "We no longer auto-generate persons from transcripts")
+
+  """ The name of the person """
+  name: String
+
+  """ The role of the person on the podcast """
+  role: ContentRole
+
+  """ The url for the person """
+  url: String
+
+  """ Unique identifier (an uuid) for a person """
+  uuid: ID
+}
+
+""" Type of content """
+enum PodcastContentType {
+  AUDIO
+  VIDEO
+}
+
+""" Podcast Episode Details """
+type PodcastEpisode {
+  """ Alternate enclosures available for this episode (different formats, qualities, video) 
+  """
+  alternateEnclosureUrlsWithDetails: [AlternateEnclosureLink]
+
+  """ Link to Audio Content for the episode"""
+  audioUrl: String
+
+  """ Download and parse the chapters """
+  chapters: [Chapter]
+
+  """ A list of urls where you can download chapter details """
+  chaptersUrls: [String]
+
+  """ A list of urls where you can download chapter details, including more details 
+  """
+  chaptersUrlsWithDetails: [ChapterLink]
+
+  """ Date when the episode was published (Epoch time in seconds) """
+  datePublished: Int
+
+  """ The description for a episode """
+  description(
+    """ (Optional) Option to remove the html tags from the description or leave the description as is (which might include html tags). Default is false (do not strip html tags from description).
+    """
+    shouldStripHtmlTags: Boolean
+  ): String
+
+  """ Extract all links from within the description. """
+  descriptionLinks: [String]
+
+  """ Duration of Content (in seconds) """
+  duration: Int
+
+  """ Episode Number (if provided) """
+  episodeNumber: Int
+
+  """ Episode Type ie) trailer, bonus or full """
+  episodeType: PodcastEpisodeType
+
+  """ File Length of Content. Typed as Float (not Int) to support 64-bit integers (very large files) 
+  """
+  fileLength: Float
+
+  """ Exact File Type of Content """
+  fileType: String
+
+  """ An episode's unique identifier from its RSS feed """
+  guid: String
+
+  """ A different hash means that details for this episode have updated since the last hash 
+  """
+  hash: String
+
+  """ Cover Art for the episode (it may be different than podcast cover art) 
+  """
+  imageUrl: String
+
+  """ If the content has violated Taddy's distribution policies for illegal or harmful content it will be blocked from getting any updates 
+  """
+  isBlocked: Boolean
+
+  """ If the episode contain's explicit content """
+  isExplicitContent: Boolean
+
+  """ If the episode has now been removed from the RSS Feed """
+  isRemoved: Boolean
+
+  """ The name of an episode """
+  name: String
+
+  """ People listed on the episode including their roles (Host, Guest, etc) 
+  """
+  persons: [Person]
+
+  """ Details on the podcast for which this episode belongs to """
+  podcastSeries: PodcastSeries
+
+  """ Season Number (if provided) """
+  seasonNumber: Int
+
+  """ The subtitle of an episode (shorter version of episode description, limited to 255 characters long) 
+  """
+  subtitle: String
+
+  """ Status of transcript (complete, processing, not transcribed) """
+  taddyTranscribeStatus: PodcastEpisodeTranscriptionStatus
+
+  """ Downloads the transcript, parses it and returns an array of text in paragraphs. 
+  """
+  transcript(
+    """ (Optional) If the transcript is not available, use Taddy's on-demand transcription feature to generate one. Default is true. On-demand transcription takes ~10 seconds for every 1 hour of audio transcribed. Also, consider using getEpisodeTranscript to offload getting the transcript to another query. 
+    """
+    useOnDemandCreditsIfNeeded: Boolean
+
+    """ (Optional) Only return a transcript if it is provided by the podcast itself. If the podcast does not provide a transcript, Taddy will not generate one and will return null instead. Takes precedence over useOnDemandCreditsIfNeeded. Default is false. 
+    """
+    useOnlyPodcastProvidedTranscript: Boolean
+  ): [String]
+
+  """ A list of urls where you can download the transcript for this episode 
+  """
+  transcriptUrls: [String]
+
+  """ A list of urls where you can download the transcript for this episode, including more details 
+  """
+  transcriptUrlsWithDetails: [TranscriptLink]
+
+  """ Download the transcript, parses it and return an array of transcript items (which includes text, speakers and timecodes) 
+  """
+  transcriptWithSpeakersAndTimecodes(
+    """ (Optional) Style option for transcript. Default is PARAGRAPH"""
+    style: TranscriptItemStyle
+
+    """ (Optional) If the transcript is not available, use Taddy's on-demand transcription feature to generate one. Default is true. On-demand transcription takes ~10 seconds for every 1 hour of audio transcribed. Also, consider using getEpisodeTranscript to offload getting the transcript to another query. 
+    """
+    useOnDemandCreditsIfNeeded: Boolean
+
+    """ (Optional) Only return a transcript if it is provided by the podcast itself. If the podcast does not provide a transcript, Taddy will not generate one and will return null instead. Takes precedence over useOnDemandCreditsIfNeeded. Default is false. 
+    """
+    useOnlyPodcastProvidedTranscript: Boolean
+  ): [TranscriptItem]
+
+  """ Taddy's unique identifier (an uuid) """
+  uuid: ID
+
+  """ Link to Video Content for the episode"""
+  videoUrl: String
+
+  """ Website Link for episode """
+  websiteUrl: String
+}
+
+""" Status of the episode's transcription """
+enum PodcastEpisodeTranscriptionStatus {
+  COMPLETED
+  FAILED
+  NOT_TRANSCRIBING
+  PROCESSING
+}
+
+""" Type of episodes (trailer, bonus, full) """
+enum PodcastEpisodeType {
+  BONUS
+  FULL
+  TRAILER
+}
+
+""" Podcast Details """
+type PodcastSeries {
+  """ Name of the Podcast creator (the podcast creator and the owner of the podcast feed can be different)
+  """
+  authorName: String
+
+  """ A hash of all episode details. It may be useful for you to save this property in your database and compare it to know if there are any new or updated episodes since the last time you checked 
+  """
+  childrenHash: String
+
+  """ Podcast's Content Type (Is the podcast primarily an Audio or Video Podcast) 
+  """
+  contentType: PodcastContentType
+
+  """ Copyright details for the podcast """
+  copyright: String
+
+  """ Date when the podcast was published (Epoch time in seconds) """
+  datePublished: Int
+
+  """ The description for a podcast """
+  description(
+    """ (Optional) Option to remove the html tags from the description or leave the description as is (which may include html tags). Default is false (leave description as is).
+    """
+    shouldStripHtmlTags: Boolean
+  ): String
+
+  """ Extract all links from within the description. """
+  descriptionLinks: [String]
+
+  """ A list of episodes for this podcast """
+  episodes(
+    """ (Optional) The option to show episodes that were once on the RSS feed but have now been removed. Default is false (do not include removed episodes) 
+    """
+    includeRemovedEpisodes: Boolean
+
+    """ (Optional) Return up to this number of episodes. Default is 10, Max value allowed is 25 results per page 
+    """
+    limitPerPage: Int
+
+    """ (Optional) Taddy paginates the results returned. Default is 1, Max value allowed is 1000 
+    """
+    page: Int
+
+    """ (Optional) Only to be used when sortOrder is SEARCH. Filters through the title & description of episodes for the searchTerm 
+    """
+    searchTerm: String
+
+    """ (Optional) Returns episodes based on SortOrder. Default is LATEST (newest episodes first), another option is OLDEST (oldest episodes first), and another option is SEARCH (pass in the property searchTerm) to filter for episodes by title or description. 
+    """
+    sortOrder: SortOrder
+  ): [PodcastEpisode]
+
+  """ Details on how often the podcast is checked for new episodes """
+  feedRefreshDetails: FeedRefreshDetails
+
+  """ A podcast can belong to multiple genres but they are listed in order of importance. Limit of 5 genres per podcast
+  """
+  genres: [Genre]
+
+  """ A hash of all podcast details. It may be useful for you to save this property in your database and compare it to know if any podcast details have updated since the last time you checked 
+  """
+  hash: String
+
+  """ The cover art for a podcast """
+  imageUrl: String
+
+  """ If the content has violated Taddy's distribution policies for illegal or harmful content it will be blocked from getting any updates 
+  """
+  isBlocked: Boolean
+
+  """ (Old version) If the podcast is finished / complete """
+  isComplete: Boolean @deprecated(reason: "Use isCompleted instead")
+
+  """ If the podcast is finished / complete """
+  isCompleted: Boolean
+
+  """ Boolean for if the podcast contain's explicit content """
+  isExplicitContent: Boolean
+
+  """ itunesId for the podcast. Typed as Float (not Int) to support 64-bit integers 
+  """
+  itunesId: Float
+
+  """ Additional info from itunes on the podcast """
+  itunesInfo: iTunesInfo
+
+  """ Language spoken on the podcast """
+  language: Language
+
+  """ The name (title) for a podcast """
+  name: String
+
+  """ People listed on the podcast including their roles (Host, Guest, etc) 
+  """
+  persons: [Person]
+
+  """ The popularity of the podcast. ex) TOP_200, TOP_1000 etc """
+  popularityRank: PopularityRank
+
+  """ Name to use for contacting the owner of this podcast feed """
+  rssOwnerName: String
+
+  """ Email to use for contacting the owner of this podcast feed """
+  rssOwnerPublicEmail: String
+
+  """ Url for the podcast's RSS feed """
+  rssUrl: String
+
+  """ Podcast type (serial or episodic) """
+  seriesType: PodcastSeriesType
+
+  """ Whether the podcast is being automatically transcribed by our API """
+  taddyTranscribeStatus: PodcastSeriesTranscriptionStatus
+
+  """ The number of episodes for this podcast """
+  totalEpisodesCount(
+    """ (Optional) Option to include episodes that were once on the RSS feed but have now been removed. Default is false (do not include removed episodes) 
+    """
+    includeRemovedEpisodes: Boolean
+  ): Int
+
+  """ Taddy's unique identifier (an uuid) """
+  uuid: ID
+
+  """ The podcast's website """
+  websiteUrl: String
+}
+
+""" Status of the podcast's transcription """
+enum PodcastSeriesTranscriptionStatus {
+  CREATOR_ASKED_NOT_TO_TRANSCRIBE
+  NOT_TRANSCRIBING
+  TRANSCRIBING
+}
+
+""" Type of podcast """
+enum PodcastSeriesType {
+  EPISODIC
+  SERIAL
+}
+
+""" How popular the podcast is """
+enum PopularityRank {
+  TOP_200
+  TOP_1000
+  TOP_2000
+  TOP_3000
+  TOP_4000
+  TOP_5000
+  TOP_10000
+  TOP_20000
+  TOP_50000
+  TOP_100000
+  TOP_200000
+}
+
+type PopularityResult {
+  """ A list of PodcastSeries items """
+  podcastSeries: [PodcastSeries]
+
+  """ Identifier for the popularity query being sent (Used for caching) """
+  popularityRankId: ID!
+}
+
+""" Please go to https://taddy.org/developers for full documentation of the API 
+"""
+type Query {
+  """ Get remaining API requests"""
+  getApiRequestsRemaining: Int
+  getEpisodeChapters(
+    """ Taddy's unique identifier (uuid) for the episode """
+    uuid: ID
+  ): [Chapter]
+  getEpisodeTranscript(
+    """ (Optional) Style option for transcript. Default is PARAGRAPH"""
+    style: TranscriptItemStyle
+
+    """ (Optional) If the transcript is not available, use Taddy's on-demand transcription feature to generate one. Default is true. On-demand transcription takes ~10 seconds for every 1 hour of audio transcribed. 
+    """
+    useOnDemandCreditsIfNeeded: Boolean
+
+    """ (Optional) Only return a transcript if it is provided by the podcast itself. If the podcast does not provide a transcript, Taddy will not generate one and will return null instead. Takes precedence over useOnDemandCreditsIfNeeded. Default is false. 
+    """
+    useOnlyPodcastProvidedTranscript: Boolean
+
+    """ Taddy's unique identifier (uuid) for the episode """
+    uuid: ID
+  ): [TranscriptItem]
+
+  """ Get details on a Podcast """
+  getItunesInfo(
+    """ Get ItunesInfo on a podcast by the podcast's itunesId. Typed as Float (not Int) to support 64-bit integers 
+    """
+    itunesId: Float
+
+    """ Get ItunesInfo on a podcast by the podcast's unique identifier (uuid) 
+    """
+    uuid: ID
+  ): iTunesInfo
+
+  """ Get the newly released episodes for a list of podcasts """
+  getLatestPodcastEpisodes(
+    """ Allows for pagination. The number of episodes to return per page. Default is 25. Max value is 50 
+    """
+    limitPerPage: Int
+
+    """ Allows for pagination. The page number to return. Default is 1. Max value is 20 
+    """
+    page: Int
+
+    """ An Array of urls to the RSS feeds for the podcasts. Max 1000 rssUrls allowed 
+    """
+    rssUrls: [String]
+
+    """ An Array of taddy's unique identifier (uuid). Max 1000 uuids allowed """
+    uuids: [ID]
+  ): [PodcastEpisode]
+
+  """ Get details on multiple podcast episodes"""
+  getMultiplePodcastEpisodes(
+    """ An Array of taddy's unique identifier (uuid). Max 25 IDs allowed """
+    uuids: [ID]
+  ): [PodcastEpisode]
+
+  """ Get details on multiple podcasts """
+  getMultiplePodcastSeries(
+    """ An Array of taddy's unique identifier (uuid). Max 25 IDs allowed """
+    uuids: [ID]
+  ): [PodcastSeries]
+
+  """ Get your Developer Applications """
+  getMyDeveloperWebhooks(limit: Int): UserWebhooks
+
+  """ Get details on a podcast episode"""
+  getPodcastEpisode(
+    """ An episode's guid (from its RSS Feed). Note: guid is not guaranteed to be unique (two different podcasts can use the same guid for two different episodes). If you know the podcast series uuid, you can use seriesUuidForLookup to filter the results to only return episodes for that series 
+    """
+    guid: String
+
+    """ The name (title) of a episode. Note: Multiple episodes can have the exact same name. If you know the podcast series uuid, you can use seriesUuidForLookup to filter the results to only return episodes for that series 
+    """
+    name: String
+
+    """ If you know the podcast series uuid, you can use this to filter the results to only return episodes for that series. This is useful if you are if you using this query and passing in guid or name and want to ensure you get the correct episode 
+    """
+    seriesUuidForLookup: ID
+
+    """ Taddy's unique identifier (uuid) """
+    uuid: ID
+  ): PodcastEpisode
+
+  """ Get details on a Podcast """
+  getPodcastSeries(
+    """ Get a podcast by its iTunes ID. Typed as Float (not Int) to support 64-bit integers 
+    """
+    itunesId: Float
+
+    """ The name (title) of a podcast. Note: Multiple podcasts can have the exact same name, in that case we always try to return the most popular podcast (based on infomation we have on the podcast popularity)
+    """
+    name: String
+
+    """ Get a podcast by its RSS feed url """
+    rssUrl: String
+
+    """ Get a podcast by its unique identifier (uuid) """
+    uuid: ID
+  ): PodcastSeries
+
+  """ Get Popularity Rank """
+  getPopularContent(
+    """ (Optional) Allows for filtering by genres. """
+    filterByGenres: [Genre!]
+
+    """ (Optional) Allows for filtering by language. """
+    filterByLanguage: Language
+
+    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) 
+    """
+    limitPerPage: Int
+
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. 
+    """
+    page: Int
+
+    """ (Optional) The type of content you want to get ranked by popularity. Only PODCASTSERIES is supported for now. 
+    """
+    taddyType: TaddyType
+  ): PopularityResult
+
+  """ Get Top Charts By Country """
+  getTopChartsByCountry(
+    """ Which country do you want the Top Charts for."""
+    country: Country!
+
+    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) 
+    """
+    limitPerPage: Int
+
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. 
+    """
+    page: Int
+
+    """ (Optional) The platform to check for top charts content. Default is APPLE_PODCASTS 
+    """
+    source: TopChartsSource
+
+    """ The type of content you want to get top charts information on. """
+    taddyType: TaddyType!
+  ): TopChartsResults
+
+  """ Get Top Charts By Genre """
+  getTopChartsByGenres(
+    """ (Optional) We filter the results by country (needed for PODCASTEPISODE taddyType)
+    """
+    filterByCountry: Country
+
+    """ Which genres do you want the Top Charts for."""
+    genres: [Genre!]
+
+    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) 
+    """
+    limitPerPage: Int
+
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. 
+    """
+    page: Int
+
+    """ (Optional) The platform to check for top charts content. Default is APPLE_PODCASTS 
+    """
+    source: TopChartsSource
+
+    """ The type of content you want to get top charts information on. """
+    taddyType: TaddyType!
+  ): TopChartsResults
+
+  """ Get remaining transcript credits"""
+  getTranscriptCreditsRemaining: Int
+
+  """ Get a single webhook filter by UUID """
+  getWebhookFilterByUuid(filterUuid: ID!, webhookId: ID!): WebhookFilter
+
+  """ Get Search results details for a term """
+  search(
+    """ (Optional - for COMICSERIES) Filter for if a comic's series layout is VERTICAL_SCROLL_TOP_TO_BOTTOM or PAGE etc. Default is null (include all comic layouts). This filter is only for COMICSERIES and will return an empty array for any other type 
+    """
+    filterForComicSeriesLayout: [ComicSeriesLayout]
+
+    """ (Optional - for COMICSERIES) Filter for if a comic's series type is WEBTOON, MANGA, etc. Default is null (include all comic types). This filter is only for COMICSERIES and will return an empty array for any other type 
+    """
+    filterForComicSeriesType: [ComicSeriesType]
+
+    """ (Optional - for COMICSERIES) Filter for only content that has a certain content rating. This filter is only for COMICSERIES and will return an empty array for any other types. For PODCASTSERIES & PODCASTEPISODE use isSafeMode 
+    """
+    filterForContentRatings: [ContentRating]
+
+    """ (Optional - for CREATOR) Filter for only creators with a specific role in creating the content. This filter is only for CREATOR and will return an empty array for any other type 
+    """
+    filterForContentRoles: [ContentRole]
+
+    """ (Optional) Filter for only content made in certain countries """
+    filterForCountries: [Country]
+
+    """ (Optional - for PODCASTEPISODE) Filter for episodes that have a duration greater than a certain number of seconds. This filter is only for PODCASTEPISODE and will return an empty array for any other type 
+    """
+    filterForDurationGreaterThan: Int
+
+    """ (Optional - for PODCASTEPISODE) Filter for episodes that have a duration less than a certain number of seconds. This filter is only for PODCASTEPISODE and will return an empty array for any other type 
+    """
+    filterForDurationLessThan: Int
+
+    """ (Optional - for COMICSERIES) Filter for only content that has a certain scopes for exclusive content. This filter is only for COMICSERIES and will return an empty array for any other type 
+    """
+    filterForExclusiveContent: [String]
+
+    """ (Optional) Filter for only content from certain genres """
+    filterForGenres: [Genre]
+
+    """ (Optional - for PODCASTEPISODE) Filter for episodes that have a transcript available. This filter is only for PODCASTEPISODE and will return an empty array for any other type 
+    """
+    filterForHasTranscript: Boolean
+
+    """ (Optional) Filter for only content made in certain languages """
+    filterForLanguages: [Language]
+
+    """ (Optional - for PODCASTSERIES & COMICSERIES) Filter for content that have an episode published after a certain date (Epoch time in seconds). This filter is only for PODCASTSERIES & COMICSERIES and will return an empty array for any other type 
+    """
+    filterForLastUpdatedAfter: Int
+
+    """ (Optional - for PODCASTSERIES & COMICSERIES) Filter for results that have an episode published before a certain date (Epoch time in seconds). This filter is only for PODCASTSERIES & COMICSERIES and will return an empty array for any other type 
+    """
+    filterForLastUpdatedBefore: Int
+
+    """ (Optional) Filter for results that are not from certain series """
+    filterForNotInSeriesUuids: [ID]
+
+    """ (Optional - for PODCASTSERIES & PODCASTEPISODE) Filter to return only AUDIO or VIDEO podcasts. Default is null (include both AUDIO & VIDEO podcasts). This filter is only for PODCASTSERIES & PODCASTEPISODE and will return an empty array for any other type 
+    """
+    filterForPodcastContentType: [PodcastContentType]
+
+    """ (Optional) Filter for results that are published after a certain date (Epoch time in seconds)
+    """
+    filterForPublishedAfter: Int
+
+    """ (Optional) Filter for results that are published before a certain date (Epoch time in seconds) 
+    """
+    filterForPublishedBefore: Int
+
+    """ (Optional) Filter for results only from certain series """
+    filterForSeriesUuids: [ID]
+
+    """ (Optional - for COMICSERIES & CREATOR) Filter for only content that includes a certain tag. Tags are case sensitive and must be exact matches. This filter is only for COMICSERIES & CREATOR and will return an empty array for any other type 
+    """
+    filterForTags: [String]
+
+    """ (Optional - for PODCASTSERIES) Filter for only content that has a certain total number of episodes. This filter is only for PODCASTSERIES and will return an empty array for any other type 
+    """
+    filterForTotalEpisodesGreaterThan: Int
+
+    """ (Optional - for PODCASTSERIES) Filter for only content that has a certain total number of episodes. This filter is only for PODCASTSERIES and will return an empty array for any other type 
+    """
+    filterForTotalEpisodesLessThan: Int
+
+    """ (Optional - for COMICSERIES) Filter for only content that has a certain total number of issues. This filter is only for COMICSERIES and will return an empty array for any other type 
+    """
+    filterForTotalIssuesGreaterThan: Int
+
+    """ (Optional - for COMICSERIES) Filter for only content that has a certain total number of issues. This filter is only for COMICSERIES and will return an empty array for any other type 
+    """
+    filterForTotalIssuesLessThan: Int
+
+    """ (Optional) Filter for certain types of content. Default is PODCASTSERIES. Possible values are PODCASTSERIES, PODCASTEPISODE, COMICSERIES, CREATOR 
+    """
+    filterForTypes: [SearchContentType]
+
+    """ (Optional) Choose to only return safe (not explicit) content or all content. Default is false (include everything, including explicit content) 
+    """
+    isSafeMode: Boolean
+
+    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) 
+    """
+    limitPerPage: Int
+
+    """ (Optional) Choose which results are matched as valid search results. Default is MOST_TERMS. Possible values are MOST_TERMS, ALL_TERMS, FREQUENCY. If you search has multiple terms, FREQUENCY gives more weight to the terms that appear less frequently in results 
+    """
+    matchBy: SearchMatchType
+
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. 
+    """
+    page: Int
+
+    """ (Optional) Choose how the results are sorted. Default is sort by EXACTNESS. Possible values are EXACTNESS and POPULARITY. 
+    """
+    sortBy: SearchSortOrder
+
+    """ The term you are searching for """
+    term: String
+  ): SearchResults
+}
+
+""" Types of media available on Taddy """
+enum SearchContentType {
+  COMICSERIES
+  CREATOR
+  PODCASTEPISODE
+  PODCASTSERIES
+}
+
+""" Search Match types """
+enum SearchMatchType {
+  ALL_TERMS
+  EXACT_PHRASE
+  MOST_TERMS
+}
+
+type SearchQueryResponseInfo {
+  """ Counts of each item type returned in the search results """
+  responseInfoDetails: [SearchQueryResponseInfoDetails]
+
+  """ Identifier for the search query being sent """
+  searchId: ID!
+
+  """ The number of milliseconds the uncached query took to search for results. If this query is already cached, this is immediately returned. 
+  """
+  took: Int
+}
+
+type SearchQueryResponseInfoDetails {
+  """ Total number of pages of results returned for this type """
+  pagesCount: Int
+
+  """ Identifier for the search query being sent """
+  searchId: ID!
+
+  """ Total number of search results returned for this type """
+  totalCount: Int
+
+  """ The type of item being returned in the search results """
+  type: TaddyType
+}
+
+type SearchRankingDetails {
+  """ Identifier for the search query being sent """
+  id: ID!
+
+  """ The ranking score for the search results from 100 to 0. The higher the score the more relevant the result. 
+  """
+  rankingScore: Int
+
+  """ The ranking score details as a JSON string """
+  rankingScoreDetailsAsString: String @deprecated(reason: "Not used anymore")
+
+  """ The type of item being returned in the search results """
+  type: SearchContentType
+
+  """ The UUID of the item being returned in the search results """
+  uuid: ID
+}
+
+type SearchResponseDetails {
+  """ Identifier for the search query being sent """
+  id: ID!
+
+  """ Total number of pages of results returned for this type """
+  pagesCount: Int
+
+  """ Total number of search results returned for this type """
+  totalCount: Int
+
+  """ The type of item being returned in the search results """
+  type: SearchContentType
+}
+
+""" Search results """
+type SearchResults {
+  """ A list of PodcastEpisode items """
+  podcastEpisodes: [PodcastEpisode]
+
+  """ A list of PodcastSeries items """
+  podcastSeries: [PodcastSeries]
+
+  """ Additional information on the search results """
+  queryResponseInfo: SearchQueryResponseInfo @deprecated(reason: "use responseDetails instead")
+
+  """ Ranking information for each search result  """
+  rankingDetails: [SearchRankingDetails]
+
+  """ Additional information on the search results (Total # of results, # of pages, etc) 
+  """
+  responseDetails: [SearchResponseDetails]
+
+  """ Identifier for the search query being sent (Used for caching) """
+  searchId: ID!
+}
+
+""" Search Sort orders """
+enum SearchSortOrder {
+  EXACTNESS
+  POPULARITY
+}
+
+""" Different Sort orders """
+enum SortOrder {
+  LATEST
+  OLDEST
+  SEARCH
+}
+
+""" Types of media available on Taddy """
+enum TaddyType {
+  COMICISSUE
+  COMICSERIES
+  CREATOR
+  PODCASTEPISODE
+  PODCASTSERIES
+}
+
+""" Top Charts Results """
+type TopChartsResults {
+  """ If the Top charts is by genre or country (deprecated) """
+  by: TopChartsType @deprecated(reason: "Not needed")
+
+  """ The country the top charts are categorized by """
+  country: Country @deprecated(reason: "Not needed")
+
+  """ The genre the top charts are categorized by """
+  genre: Genre @deprecated(reason: "Not needed")
+
+  """ A list of PodcastEpisode items """
+  podcastEpisodes: [PodcastEpisode]
+
+  """ A list of PodcastSeries items """
+  podcastSeries: [PodcastSeries]
+
+  """ The platform to check for top charts content """
+  source: TopChartsSource @deprecated(reason: "Not needed")
+
+  """ The type of content """
+  taddyType: TaddyType @deprecated(reason: "Not needed")
+
+  """ Identifier for the top charts query being sent (Used for caching) """
+  topChartsId: ID!
+}
+
+enum TopChartsSource {
+  APPLE_PODCASTS
+}
+
+enum TopChartsType {
+  COUNTRY
+  GENRE
+}
+
+""" Each line of the transcript """
+type TranscriptItem {
+  """ The end timecode of the transcript item in milliseconds """
+  endTimecode: Int
+
+  """ The unique identifier for the transcript item """
+  id: ID
+
+  """ The speaker of the transcript item """
+  speaker: String
+
+  """ The start timecode of the transcript item in milliseconds """
+  startTimecode: Int
+
+  """ The text of the transcript item """
+  text: String
+}
+
+""" Style of the transcript """
+enum TranscriptItemStyle {
+  PARAGRAPH
+  UTTERANCE
+}
+
+""" A url link to the transcript for an episode """
+type TranscriptLink {
+  """ (Optional) If the transcript has timecodes """
+  hasTimecodes: Boolean
+
+  """ If the transcript is exclusive to Taddy API Business users and you need an API key to access it 
+  """
+  isTaddyExclusive: Boolean
+
+  """ (Optional) The language of the transcript """
+  language: String
+
+  """ Mime type of file """
+  type: String
+
+  """ The url to the transcript """
+  url: String
+}
+
+""" User Details for Developer Application Details """
+type UserWebhooks {
+  """ The user id for the dev app"""
+  userId: ID
+
+  """ A list of all the dev Apps for a user"""
+  webhooks: [Webhook]
+}
+
+""" Webhook Details """
+type Webhook {
+  """ Date created (Epoch time in seconds) """
+  createdAt: Int
+
+  """ URL for the webhook """
+  endpointUrl: String
+
+  """Events that get triggered for the webhook"""
+  events: [String]
+
+  """ Filters for this webhook (OR logic between filters) """
+  filters: [WebhookFilter]
+
+  """ The unique identifier for the webhook """
+  id: ID!
+
+  """If the webhook is active or not"""
+  isActive: Boolean
+
+  """If the webhook is verified or not"""
+  isVerified: Boolean
+
+  """ Secret for the webhook """
+  webhookSecret: String
+}
+
+""" Type of webhook action """
+enum WebhookEventActionType {
+  created
+  deleted
+  feed_updated
+  new_content_released
+  new_episodes_released
+  new_issues_released
+  updated
+}
+
+""" A filter for a webhook (one row = one event type + clauses) """
+type WebhookFilter {
+  clause1: String
+  clause2: String
+  clause3: String
+  clause4: String
+  clause5: String
+  description: String
+  eventType: String!
+  excludedUuids: [String]
+  hasExcludedUuids: Boolean
+  hasIncludedUuids: Boolean
+  includedUuids: [String]
+  uuid: ID!
+  webhookId: ID
+}
+
+""" Input for creating/updating a filter """
+input WebhookFilterInput {
+  description: String
+  eventType: String!
+  excludedUuids: [String]
+  field1: String
+  field2: String
+  field3: String
+  field4: String
+  field5: String
+  includedUuids: [String]
+  value1: String
+  value2: String
+  value3: String
+  value4: String
+  value5: String
+}
+
+""" Websub Details """
+type WebsubDetails {
+  """ If the websub notification is currently active """
+  isVerified: Boolean
+
+  """ The feed url for the websub """
+  topicUrl: String
+
+  """ Taddy's unique identifier """
+  uuid: ID
+
+  """ The url for the hub where you get the websub notification """
+  websubHubUrl: String
+}
+
+""" iTunes Info for a podcast """
+type iTunesInfo {
+  """ Base Url to the podcast's cover art from iTunes. NOTE: To get a working image, you need to pass in a size at the end of the url in the format {baseArtworkUrl}{size}x{size}bb.png ex {baseArtworkUrl}640x640bb.png 
+  """
+  baseArtworkUrl: String
+
+  """ Helper Url to the podcast's cover art from iTunes. Pass in an interger for the size of the image you want 
+  """
+  baseArtworkUrlOf(size: Int): String
+
+  """ Country where the podcast is made """
+  country: Country
+
+  """ A different hash signals that itunes information has changed since the last hash 
+  """
+  hash: String
+
+  """ PodcastSeries linked to this iTunesInfo """
+  podcastSeries: PodcastSeries
+
+  """ Publisher Id from iTunes. Typed as Float (not Int) to support 64-bit integers 
+  """
+  publisherId: Float
+
+  """ Publisher name from iTunes """
+  publisherName: String
+
+  """ Subtitle given in Apple Podcasts """
+  subtitle: String
+
+  """ Summary given in Apple Podcasts """
+  summary: String
+
+  """ PodcastSeries unique identifier linked to this iTunesInfo """
+  uuid: ID
+}

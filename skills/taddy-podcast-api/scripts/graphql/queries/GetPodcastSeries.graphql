@@ -1,0 +1,21 @@
+#import "../fragments/PodcastSeriesDetails.graphql"
+#import "../fragments/PodcastEpisodeDetails.graphql"
+
+# Look up one podcast by uuid (preferred), rssUrl, itunesId, or name, with one bounded page of episodes.
+# totalEpisodesCount bounds the episode pager: stop when page * limitPerPage >= totalEpisodesCount.
+query GetPodcastSeries(
+  $uuid: ID
+  $rssUrl: String
+  $itunesId: Float
+  $name: String
+  $limitPerPage: Int = 10
+  $page: Int = 1
+) {
+  getPodcastSeries(uuid: $uuid, rssUrl: $rssUrl, itunesId: $itunesId, name: $name) {
+    ...podcastSeriesDetails
+    totalEpisodesCount
+    episodes(limitPerPage: $limitPerPage, page: $page) {
+      ...podcastEpisodeDetails
+    }
+  }
+}

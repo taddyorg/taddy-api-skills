@@ -1,0 +1,12 @@
+#import "../fragments/MiniPodcastSeriesDetails.graphql"
+#import "../fragments/PodcastEpisodeDetails.graphql"
+
+# Newest episodes across a list of podcasts (a subscriptions feed). One request for up to 1,000 uuids.
+query GetLatestPodcastEpisodes($uuids: [ID], $limitPerPage: Int = 25, $page: Int = 1) {
+  getLatestPodcastEpisodes(uuids: $uuids, limitPerPage: $limitPerPage, page: $page) {
+    ...podcastEpisodeDetails
+    podcastSeries {
+      ...miniPodcastSeriesDetails
+    }
+  }
+}

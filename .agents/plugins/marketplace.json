@@ -1,0 +1,20 @@
+{
+  "name": "taddy-api",
+  "interface": {
+    "displayName": "Taddy API"
+  },
+  "plugins": [
+    {
+      "name": "taddy-podcast-api",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

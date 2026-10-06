@@ -1,0 +1,16 @@
+# What a player or episode list needs. datePublished is epoch seconds, duration is seconds.
+# Transcripts are fetched separately with getEpisodeTranscript, never inside a list.
+# uuid is required by the API on every PodcastEpisode selection; keep it in every fragment on this type.
+fragment podcastEpisodeDetails on PodcastEpisode {
+  uuid
+  name
+  description(shouldStripHtmlTags: true)
+  imageUrl
+  audioUrl
+  datePublished
+  duration
+  episodeNumber
+  seasonNumber
+  isRemoved
+  hash
+}

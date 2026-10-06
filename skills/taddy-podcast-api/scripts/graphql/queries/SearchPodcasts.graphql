@@ -1,0 +1,31 @@
+#import "../fragments/MiniPodcastSeriesDetails.graphql"
+#import "../fragments/PodcastEpisodeDetails.graphql"
+
+# Full-text search. Pass filterForTypes: [PODCASTSERIES] or [PODCASTEPISODE] (or both).
+# responseDetails gives pagesCount per content type: stop paging when page >= pagesCount or page == 20 (the page limit;
+# pagesCount can exceed it). Its id field is required.
+query SearchPodcasts(
+  $term: String!
+  $filterForTypes: [SearchContentType] = [PODCASTSERIES]
+  $limitPerPage: Int = 10
+  $page: Int = 1
+) {
+  search(term: $term, filterForTypes: $filterForTypes, limitPerPage: $limitPerPage, page: $page) {
+    searchId
+    responseDetails {
+      id
+      type
+      pagesCount
+      totalCount
+    }
+    podcastSeries {
+      ...miniPodcastSeriesDetails
+    }
+    podcastEpisodes {
+      ...podcastEpisodeDetails
+      podcastSeries {
+        ...miniPodcastSeriesDetails
+      }
+    }
+  }
+}

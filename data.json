@@ -1,0 +1,47 @@
+{
+  "name": "taddy-podcast-api",
+  "displayName": "Taddy Podcast API",
+  "version": "0.1.0",
+  "description": "GraphQL schema, Docs and best practices to help integrate Taddy Podcast API into your app, including details on any podcast and episode, full-text search, latest episode from multiple podcasts, Apple Podcasts top charts, episode transcripts, and real-time updates via webhooks.",
+  "shortDescription": "GraphQL Schema, Docs, and best practices for Taddy Podcast API.",
+  "codex": {
+    "shortDescription": "Podcast API schema and docs",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "privacyPolicyURL": "https://taddy.org/terms-of-service/privacy-policy",
+    "termsOfServiceURL": "https://taddy.org/terms-of-service",
+    "supportURL": "https://taddy.org/terms-of-service"
+  },
+  "author": {
+    "name": "Taddy API",
+    "email": "danny@taddy.org"
+  },
+  "homepage": "https://taddy.org/developers/podcast-api",
+  "repository": "https://github.com/taddyorg/taddy-api-skills",
+  "license": "MIT",
+  "logo": "assets/taddy-logo.png",
+  "keywords": [
+    "taddy",
+    "podcast",
+    "podcast-api",
+    "transcripts",
+    "episode-transcripts",
+    "podcast-search",
+    "podcast-search-api",
+    "webhooks",
+    "graphql"
+  ],
+  "categories": {
+    "claude": "development",
+    "codex": "Developer Tools",
+    "cursor": "developer-tools"
+  },
+  "marketplace": {
+    "name": "taddy-api",
+    "displayName": "Taddy API",
+    "description": "GraphQL Schema, Docs, and best practices for Taddy Podcast API"
+  }
+}

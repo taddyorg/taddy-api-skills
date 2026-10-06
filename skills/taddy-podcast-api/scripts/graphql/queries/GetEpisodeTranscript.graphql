@@ -1,0 +1,28 @@
+# The transcript for one episode, as its own request: never inside an episode list or next to episode details.
+# id is required by the API on every TranscriptItem selection (INVALID_QUERY_OR_SYNTAX without it).
+# Call with a longer timeout than the default, e.g. query(GetEpisodeTranscript, { uuid }, { timeoutMs: 300_000 }):
+# on-demand transcription takes ~10 s per hour of audio and the server gives up after ~5 minutes (result null).
+# Any Taddy-generated transcript spends one credit the first time the account fetches it in a billing month;
+# useOnDemandCreditsIfNeeded: false only prevents generating a new one. Fetch on an explicit user action.
+# useOnlyPodcastProvidedTranscript: true returns only a podcast-published transcript (null otherwise), never spends
+# a credit and works on the Free plan; it overrides useOnDemandCreditsIfNeeded.
+# startTimecode and endTimecode are milliseconds.
+query GetEpisodeTranscript(
+  $uuid: ID!
+  $style: TranscriptItemStyle = PARAGRAPH
+  $useOnDemandCreditsIfNeeded: Boolean = true
+  $useOnlyPodcastProvidedTranscript: Boolean = false
+) {
+  getEpisodeTranscript(
+    uuid: $uuid
+    style: $style
+    useOnDemandCreditsIfNeeded: $useOnDemandCreditsIfNeeded
+    useOnlyPodcastProvidedTranscript: $useOnlyPodcastProvidedTranscript
+  ) {
+    id
+    text
+    speaker
+    startTimecode
+    endTimecode
+  }
+}

@@ -1,0 +1,10 @@
+# The smallest podcast shape a list row, search result or chart entry needs.
+fragment miniPodcastSeriesDetails on PodcastSeries {
+  uuid
+  name
+  authorName
+  imageUrl
+  itunesId
+  rssUrl
+  hash
+}
