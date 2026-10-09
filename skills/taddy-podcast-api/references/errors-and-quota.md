@@ -73,4 +73,4 @@ Rules that change how you design a feature:
 
 - Copying the whole directory (millions of podcasts and hundreds of millions of episodes) is an enterprise one-time export plus webhooks to stay in sync, not paginated queries. See `references/bulk-download-podcastseries.md`.
 - Adding a podcast to the directory is a REST call, `POST https://taddy.org/feeds/add-podcastseries`, not a GraphQL mutation. See `references/add-a-podcastseries-to-taddy.md`.
-- Testing webhook filters without waiting for new episodes: the `mockWebhookEvent` mutation. Recovering events your endpoint failed to acknowledge: `replayFailedWebhookEvents` (14-day window).
+- When you want real-time updates, use webhooks and webhook filters instead of polling. See `references/webhooks.md`.

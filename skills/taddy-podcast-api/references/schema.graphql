@@ -833,11 +833,11 @@ type Mutation {
   deleteWebhookFilter(filterUuid: ID!, webhookId: ID!): Webhook
   deleteWebhookForUser(id: ID!): ID
 
-  """ Send a mock webhook event to test filters and endpoint delivery. Returns true if event was sent. 
+  """ Send a mock webhook event to test filters and endpoint delivery. Fetches the content, applies the filters for that event type and sends the event to your endpoint. Returns true if a filter matched (or the event type has no filters) and the event was sent, false if nothing matched, the webhook is not subscribed to the event type, or the uuid was not found. A non-200 response from your endpoint still returns true; mock events are not recorded as failed and cannot be replayed. 
   """
   mockWebhookEvent(action: WebhookEventActionType!, contentUuid: String!, taddyType: String!, webhookId: ID!): Boolean
 
-  """ Replay all failed webhook events for a webhook. Returns the number of events successfully replayed. 
+  """ Replay all failed webhook events for a webhook. Returns the number of failed events stored for this webhook, which are then queued and resent asynchronously; it is not the number successfully redelivered. Mock events are never recorded as failed and are not replayed. 
   """
   replayFailedWebhookEvents(webhookId: ID!): Int
   updateWebhookFilter(filter: WebhookFilterInput!, filterUuid: ID!, webhookId: ID!): Webhook
@@ -1463,7 +1463,7 @@ type Query {
     """
     limitPerPage: Int
 
-    """ (Optional) Choose which results are matched as valid search results. Default is MOST_TERMS. Possible values are MOST_TERMS, ALL_TERMS, FREQUENCY. If you search has multiple terms, FREQUENCY gives more weight to the terms that appear less frequently in results 
+    """ (Optional) Choose which results are matched as valid search results. Default is MOST_TERMS. Possible values are MOST_TERMS (any of the words), ALL_TERMS (all of the words, in any order) and EXACT_PHRASE (the words together, in order) 
     """
     matchBy: SearchMatchType
 
@@ -1725,36 +1725,115 @@ enum WebhookEventActionType {
 
 """ A filter for a webhook (one row = one event type + clauses) """
 type WebhookFilter {
+  """ Clause 1 as one string: 'field1' MATCHES 'value1', with the regex exactly as stored. Null when the clause is not set. To compare with your own field and regex, split on the first ' MATCHES ' and remove the outer single quotes 
+  """
   clause1: String
+
+  """ Clause 2, same format as clause1 
+  """
   clause2: String
+
+  """ Clause 3, same format as clause1 
+  """
   clause3: String
+
+  """ Clause 4, same format as clause1 
+  """
   clause4: String
+
+  """ Clause 5, same format as clause1 
+  """
   clause5: String
+
+  """ The label you gave the filter 
+  """
   description: String
+
+  """ The event type this filter applies to (e.g. podcastepisode.created) 
+  """
   eventType: String!
+
+  """ BlockList entries 
+  """
   excludedUuids: [String]
+
+  """ True if the filter has a BlockList 
+  """
   hasExcludedUuids: Boolean
+
+  """ True if the filter has an AllowList 
+  """
   hasIncludedUuids: Boolean
+
+  """ AllowList entries 
+  """
   includedUuids: [String]
+
+  """ The unique identifier for the filter 
+  """
   uuid: ID!
+
+  """ The webhook this filter belongs to 
+  """
   webhookId: ID
 }
 
-""" Input for creating/updating a filter """
+""" Input for creating/updating a filter. See references/webhook-filters.md for the fields you can filter on """
 input WebhookFilterInput {
+  """ (Optional) A label for this filter. Not used for matching, so you can store your own key in it (e.g. watchlist:AAPL:name) 
+  """
   description: String
+
+  """ The event type this filter applies to, in the form taddyType.action (e.g. podcastepisode.created). Must be an event type the webhook is subscribed to 
+  """
   eventType: String!
+
+  """ (Optional) BlockList: content from these podcasts never matches. Each entry is a podcast uuid, rssUrl or itunesId 
+  """
   excludedUuids: [String]
+
+  """ (Optional) Clause 1: a field from the event payload (e.g. name, description, podcastSeries.genres). Valid fields depend on the taddyType in eventType. Must be set together with value1 
+  """
   field1: String
+
+  """ (Optional) Clause 2, see field1 
+  """
   field2: String
+
+  """ (Optional) Clause 3, see field1 
+  """
   field3: String
+
+  """ (Optional) Clause 4, see field1 
+  """
   field4: String
+
+  """ (Optional) Clause 5, see field1 
+  """
   field5: String
+
+  """ (Optional) AllowList: only content from these podcasts matches. Each entry is a podcast uuid, rssUrl or itunesId 
+  """
   includedUuids: [String]
+
+  """ (Optional) Clause 1: the regex that field1 must match. Case-insensitive, matched anywhere in the value, max 500 characters; * is not allowed (use .+ or a bounded repeat). All clauses in a filter must match (AND); any filter may match (OR) 
+  """
   value1: String
+
+  """ (Optional) Clause 2, see value1 
+  """
   value2: String
+
+  """ (Optional) Clause 3, see value1 
+  """
   value3: String
+
+  """ (Optional) Clause 4, see value1 
+  """
   value4: String
+
+  """ (Optional) Clause 5, see value1 
+  """
   value5: String
 }
 

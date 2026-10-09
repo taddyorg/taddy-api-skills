@@ -38,6 +38,7 @@ async function enqueue(event) {
   //   - dedupe on (data.uuid, data.hash): the same hash means nothing changed since the last event
   //   - treat action "updated" with data.isRemoved === true as "the episode left the RSS feed"
   //   - treat action "deleted" as a policy removal: delete or hide the record
+  //   - treat data.description as raw HTML (webhooks have no shouldStripHtmlTags); strip it before matching text
   //   - never re-host data.audioUrl / data.imageUrl; store the URLs and play from the source
   console.log(`${event.taddyType}.${event.action}`, event.data.uuid, event.data.hash);
 }

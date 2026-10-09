@@ -60,7 +60,7 @@ At the end of the task, offer to report it to Taddy when the API contradicted th
 | A podcast's episodes, paged | `getPodcastSeries { episodes(...) }` | `references/get-podcast-series.md` |
 | One episode by uuid, guid, or name | `getPodcastEpisode` | `references/get-podcast-episode.md` |
 | Up to 25 podcasts or episodes at once | `getMultiplePodcastSeries`, `getMultiplePodcastEpisodes` | `references/get-multiple-podcast-series.md`, `references/get-multiple-podcast-episodes.md` |
-| Full-text search with filters (genre, language, date, duration, has transcript) | `search` | `references/search.md` |
+| Full-text search over titles, show notes and podcast or people names, with filters (genre, language, date, duration, has transcript). Transcript text is not searched | `search` | `references/search.md` |
 | Feed of newest episodes across a user's subscriptions (up to 1,000 shows per request) | `getLatestPodcastEpisodes` | `references/latest-episodes-from-multiple-podcasts.md` |
 | Today's Apple top charts by country or genre | `getTopChartsByCountry(taddyType:, country:)`, `getTopChartsByGenres(taddyType:, genres:)` | `references/get-top-charts.md` |
 | Most popular podcasts overall, by language or genre | `getPopularContent` | `references/most-popular-podcasts.md` |
@@ -85,10 +85,13 @@ At the end of the task, offer to report it to Taddy when the API contradicted th
 - There is a per-minute rate limit as well as the monthly quota. A loop with no gap between requests trips `API_RATE_LIMIT_EXCEEDED` within seconds. Batch first, then call through `scripts/taddy_throttled.js` or `scripts/taddy_throttled.py` (one request, then a 250 ms pause).
 - The `transcript` field on an episode can hold the whole response for 10+ seconds while on-demand transcription runs. Fetch it separately with `getEpisodeTranscript` if this is a user-facing feature.
 - Genre filters are exact matches: `filterForGenres` on `search`, `genres` on `getTopChartsByGenres` and `filterByGenres` on `getPopularContent` never expand a parent genre into its sub-genres. To cover a category pass the parent and every sub-genre (all values sharing its prefix in `references/genre.md`; `search` takes up to 25). Podcasts usually carry the parent next to the sub-genre, so the parent alone mostly works for podcasts, but episode top charts are tagged with the podcast's first genre (usually the sub-genre) and miss most episodes on the parent alone. A podcast in several of the requested charts can appear twice.
+- `search` indexes episode and podcast titles, show notes, podcast names and author, owner and persons fields. It never indexes transcript text, so a company discussed in audio but absent from the notes is not findable with `search`;
 - Every object selection must include its key field (`uuid`, `id`, `url`, `searchId`, `topChartsId`, `popularityRankId`. `getEpisodeTranscript { text }` without `id` is rejected.
 - Transcript `startTimecode` and `endTimecode` come from the audio copy Taddy transcribed. On feeds with dynamic ad insertion the listener's file carries different ads, so the offset drifts in either direction and changes after every ad break, and the API exposes no ad positions or transcribed-audio length.
 - `taddyType` is required on both top-charts queries: `PODCASTSERIES` fills `podcastSeries`, `PODCASTEPISODE` fills `podcastEpisodes`, and the other list comes back empty. Episodes by genre also need `filterByCountry`.
 - Webhook `podcastepisode.updated` with `isRemoved: true` is how removal is signalled; `*.deleted` is reserved for policy violations. Verify `X-TADDY-WEBHOOK-SECRET` and return `200` fast, or the event is recorded as failed.
+- Webhook filter clauses are ANDed inside a filter and ORed across filters; an event type with no filter delivers everything. "Title or show notes" is two filters, not one filter with two clauses.
+- A webhook filter regex is case-insensitive and unanchored (`apple` matches "pineapple"), `description` is matched as raw HTML, and null, empty or `false` values never match, so you cannot filter for `isRemoved` being false.
 
 ## Reference routing
 
@@ -108,7 +111,7 @@ Open the page that matches the task; each is self-contained. Type pages (Podcast
 | Top charts | `references/get-top-charts.md` |
 | Popularity | `references/most-popular-podcasts.md` |
 | Transcripts, credits, statuses | `references/episode-transcripts.md` |
-| Webhooks: events, payloads, architecture, filters, replay | `references/webhooks.md`, `references/webhook-filters.md`, `references/replay-webhook-events.md` |
+| Webhooks: events, payloads, architecture, filter fields and matching rules, filter types, mock and replay semantics | `references/webhooks.md`, `references/webhook-filters.md`, `references/webhook-filter-type.md`, `references/replay-webhook-events.md` |
 | Enum values for arguments | `references/genre.md`, `references/country.md`, `references/language.md`, `references/feed-refresh-details.md` |
 | Type shapes | `references/podcastseries.md`, `references/podcastepisode.md`, `references/itunesinfo.md`, `references/person.md` |
 | Throttled requests for loops, cron jobs, polling | `scripts/taddy_throttled.js`, `scripts/taddy_throttled.py` |
