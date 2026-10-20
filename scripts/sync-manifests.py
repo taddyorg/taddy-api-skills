@@ -28,6 +28,8 @@ def claude_plugin(d):
         "license": d["license"],
         "privacyPolicyUrl": d["privacyPolicyURL"],
         "supportUrl": d["supportURL"],
+        "termsOfServiceUrl": d["termsOfServiceURL"],
+        "documentationUrl": d["documentationURL"],
         "keywords": d["keywords"],
         "icon": "./" + d["logo"],
     }
@@ -82,7 +84,7 @@ def agent_plugin(d):
                     "capabilities": c["capabilities"],
                     "websiteURL": d["homepage"],
                     "privacyPolicyURL": d["privacyPolicyURL"],
-                    "termsOfServiceURL": c["termsOfServiceURL"],
+                    "termsOfServiceURL": d["termsOfServiceURL"],
                     "supportURL": d["supportURL"],
                     "logo": "./" + d["logo"],
                     "composerIcon": "./" + d["logo"],

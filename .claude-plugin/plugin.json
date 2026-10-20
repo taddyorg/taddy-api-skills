@@ -11,6 +11,8 @@
   "license": "MIT",
   "privacyPolicyUrl": "https://taddy.org/terms-of-service/privacy-policy",
   "supportUrl": "https://taddy.org/developers/support",
+  "termsOfServiceUrl": "https://taddy.org/terms-of-service",
+  "documentationUrl": "https://taddy.org/developers/podcast-api",
   "keywords": [
     "taddy",
     "podcast",
