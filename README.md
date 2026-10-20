@@ -6,7 +6,7 @@ Agent skills for building on [Taddy API](https://taddy.org/developers/podcast-ap
 | --- | --- |
 | [`taddy-podcast-api`](skills/taddy-podcast-api/SKILL.md) | Podcast and episode lookup, full-text search, latest-episode feeds, top charts, episode transcripts, webhooks. Bundles the GraphQL schema and the podcast docs. |
 
-The skill is a judgment layer: which query fits, what burns quota and how to handle errors and quota limits. The docs and the podcast-only GraphQL schema are bundled under `references/` for the agent to read; typed clients it sets up introspect `https://api.taddy.org` directly, and every request goes to that one endpoint.
+The skill is a judgment layer: which query fits, what burns quota and how to handle errors and quota limits. The docs and the podcast-only GraphQL schema are bundled under `references/` for the agent to read; typed clients it sets up introspect `api.taddy.org` directly, and every request goes to that one endpoint.
 
 ## Install
 
@@ -82,7 +82,7 @@ Your API key comes from the [Taddy dashboard](https://taddy.org/dashboard). Keep
 ```
 data.json                 name, version, description, author, logo, categories, marketplace: the source for every manifest below
 plugin.json               Agent Plugins manifest (agent-plugins.org), read by Cursor and Codex
-assets/taddy-logo.png     square 1024x1024 logo referenced by the Codex and Cursor manifests
+assets/taddy-logo.png     square 1024x1024 logo referenced by the Claude, Codex and Cursor manifests
 .claude-plugin/           Claude Code plugin + marketplace manifests
 .cursor-plugin/           Cursor plugin manifest
 .agents/plugins/          Codex marketplace manifest
@@ -103,7 +103,7 @@ skills/taddy-podcast-api/
     ├── taddy_throttled.js   one request then a 250 ms pause, for loops and polling, Node 20+
     ├── taddy_throttled.py   same, Python 3.9+
     ├── taddy_client_typed.ts   graphql-request transport for generated documents
-    ├── codegen.ts        GraphQL Code Generator config (introspects https://api.taddy.org)
+    ├── codegen.ts        GraphQL Code Generator config (introspects api.taddy.org)
     ├── graphql/          starter fragments/ and queries/ for the typed setup, copied into the project
     ├── taddy_feedback.js   validates and scrubs a feedback report, posts it only with --send, Node 20.19+
     └── webhook-express.js

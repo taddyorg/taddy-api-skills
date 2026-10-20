@@ -27,6 +27,7 @@ def claude_plugin(d):
         "repository": d["repository"],
         "license": d["license"],
         "keywords": d["keywords"],
+        "icon": "./" + d["logo"],
     }
 
 

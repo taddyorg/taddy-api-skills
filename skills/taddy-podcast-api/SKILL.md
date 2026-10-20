@@ -92,6 +92,7 @@ At the end of the task, offer to report it to Taddy when the API contradicted th
 - Webhook `podcastepisode.updated` with `isRemoved: true` is how removal is signalled; `*.deleted` is reserved for policy violations. Verify `X-TADDY-WEBHOOK-SECRET` and return `200` fast, or the event is recorded as failed.
 - Webhook filter clauses are ANDed inside a filter and ORed across filters; an event type with no filter delivers everything. "Title or show notes" is two filters, not one filter with two clauses.
 - A webhook filter regex is case-insensitive and unanchored (`apple` matches "pineapple"), `description` is matched as raw HTML, and null, empty or `false` values never match, so you cannot filter for `isRemoved` being false.
+- `updateWebhookFilter` is a full replace (description, clauses and allow/block lists are all rebuilt), so send the whole filter, not just the clause you are changing. Read back, `clauseN` is one string, `'field' MATCHES 'regex'`.
 
 ## Reference routing
 
@@ -118,6 +119,7 @@ Open the page that matches the task; each is self-contained. Type pages (Podcast
 | Starter code, plain | `scripts/taddy_client.js`, `scripts/taddy_client.py`, `scripts/taddy_throttled.js`, `scripts/taddy_throttled.py`, `scripts/webhook-express.js` |
 | Starter code, typed (TypeScript) | `scripts/taddy_client_typed.ts`, `scripts/codegen.ts`, `scripts/graphql/` (fragments and queries, including `scripts/graphql/queries/GetEpisodeTranscript.graphql`) |
 | Report a skill/API mismatch or a blocked use case to Taddy | `references/skill-feedback.md`, `scripts/taddy_feedback.js` |
+| Taddy MCP server: install, tool-to-query map, how to use it next to this skill | `references/ai-tools-mcp-server.md` |
 
 ## Escape hatch
 

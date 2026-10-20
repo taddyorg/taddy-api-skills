@@ -10,8 +10,8 @@ Read this before writing any loop over a Taddy API list. Every list query has a 
 | `getMultiplePodcastSeries { episodes(...) }` | `page` (1 / 1000) | `limitPerPage` (10 / 25) | same as above, per series |
 | `getLatestPodcastEpisodes` | `page` (1 / 20) | `limitPerPage` (25 / 50) | Fewer than `limitPerPage` items returned. **Free tier: page 1 only, 25 items max.** Higher values error. |
 | `search` | `page` (1 / 20) | `limitPerPage` (10 / 25) | `responseDetails { id type pagesCount totalCount }` returns the page count per content type. `pagesCount` can exceed the page limit (a broad term reports 1000 pages), so stop when `page >= min(pagesCount, 20)`; page 21 is `BAD_USER_INPUT` |
-| `getTopChartsByCountry`, `getTopChartsByGenres` | `page` (1 / 20) | `limitPerPage` (10 / 25) | Empty list. Charts hold at most a few hundred entries |
-| `getPopularContent` | `page` (1 / 20) | `limitPerPage` (10 / 25) | Empty list |
+| `getTopChartsByCountry`, `getTopChartsByGenres` | `page` (1 / 8) | `limitPerPage` (10 / 25) | Empty list. Charts hold at most a few hundred entries |
+| `getPopularContent` | `page` (1 / 8) | `limitPerPage` (10 / 25) | Empty list |
 | `getMultiplePodcastSeries`, `getMultiplePodcastEpisodes` | none | `uuids` array, **max 25 per request** | Chunk the input into groups of 25 |
 | `getLatestPodcastEpisodes` inputs | none | `uuids` or `rssUrls`, **max 1,000 per request** | Chunk the input into groups of 1,000 |
 | `getEpisodeTranscript`, `getEpisodeChapters`, `getPodcastSeries`, `getPodcastEpisode` | not paginated | | One request per item |

@@ -19,5 +19,6 @@
     "podcast-search-api",
     "webhooks",
     "graphql"
-  ]
+  ],
+  "icon": "./assets/taddy-logo.png"
 }
