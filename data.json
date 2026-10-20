@@ -11,9 +11,7 @@
       "Read",
       "Write"
     ],
-    "privacyPolicyURL": "https://taddy.org/terms-of-service/privacy-policy",
-    "termsOfServiceURL": "https://taddy.org/terms-of-service",
-    "supportURL": "https://taddy.org/terms-of-service"
+    "termsOfServiceURL": "https://taddy.org/terms-of-service"
   },
   "author": {
     "name": "Taddy API",
@@ -22,6 +20,8 @@
   "homepage": "https://taddy.org/developers/podcast-api",
   "repository": "https://github.com/taddyorg/taddy-api-skills",
   "license": "MIT",
+  "privacyPolicyURL": "https://taddy.org/terms-of-service/privacy-policy",
+  "supportURL": "https://taddy.org/developers/support",
   "logo": "assets/taddy-logo.png",
   "keywords": [
     "taddy",

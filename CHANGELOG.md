@@ -13,4 +13,5 @@ Skill versions track the bundled `references/schema.graphql`, downloaded from `h
 - SKILL.md: triage by project state (setup / add a query / debug), query decision table, gotchas, reference routing, escape hatch.
 - References: full podcast docs mirror (49 pages) plus `schema.graphql`, and two curated pages, `pagination.md` and `errors-and-quota.md`.
 - Scripts: `taddy_client.js`, `taddy_client.py`, `webhook-express.js`.
+- Manifests: the Claude Code `plugin.json` now sets `privacyPolicyUrl` and `supportUrl`, and the Codex support link points at `https://taddy.org/developers/support` instead of the terms of service. Both URLs live at the top level of `data.json`.
 - Plugin manifests for Claude Code (`.claude-plugin/`), Cursor (`.cursor-plugin/`), Codex (`.agents/plugins/`), and the Agent Plugins standard (root `plugin.json`), all generated from `data.json` by `scripts/sync-manifests.py`.

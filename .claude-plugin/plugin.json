@@ -9,6 +9,8 @@
   "homepage": "https://taddy.org/developers/podcast-api",
   "repository": "https://github.com/taddyorg/taddy-api-skills",
   "license": "MIT",
+  "privacyPolicyUrl": "https://taddy.org/terms-of-service/privacy-policy",
+  "supportUrl": "https://taddy.org/developers/support",
   "keywords": [
     "taddy",
     "podcast",

@@ -37,7 +37,7 @@
         "websiteURL": "https://taddy.org/developers/podcast-api",
         "privacyPolicyURL": "https://taddy.org/terms-of-service/privacy-policy",
         "termsOfServiceURL": "https://taddy.org/terms-of-service",
-        "supportURL": "https://taddy.org/terms-of-service",
+        "supportURL": "https://taddy.org/developers/support",
         "logo": "./assets/taddy-logo.png",
         "composerIcon": "./assets/taddy-logo.png"
       }
