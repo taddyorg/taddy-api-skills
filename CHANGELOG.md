@@ -2,7 +2,7 @@
 
 Skill versions track the bundled `references/schema.graphql`, downloaded from `https://ax0.taddy.org/docs/taddy-podcast-api-schema.graphql` at each release. Re-copy the docs mirror and bump the version whenever the API changes.
 
-## Unreleased
+## 1.0.0 (2026-11-02)
 
 - Typed client option: SKILL.md now keeps the plain HTTP client for side features and sets up a typed client (GraphQL Code Generator + graphql-request, Node 22+) when podcast data is the product. New `references/graphql-client-libraries.md` with per-language options, plus `scripts/taddy_client_typed.ts`, `scripts/codegen.ts`, and starter `scripts/graphql/` fragments and queries. Codegen introspects `https://api.taddy.org` at build time so generated types always match production.
 - Error handling: `errors-and-quota.md` and SKILL.md now document the HTTP status behind each Taddy error code, the 4xx-vs-200-with-`errors[]` distinction, the per-minute rate limit, and the `QUERY_TOO_COMPLEX` cost model. The JS and Python clients surface the Taddy error code on non-2xx responses.
