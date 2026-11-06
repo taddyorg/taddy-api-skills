@@ -2,6 +2,15 @@
 
 Skill versions track the bundled `references/schema.graphql`, downloaded from `https://ax0.taddy.org/docs/taddy-podcast-api-schema.graphql` at each release. Re-copy the docs mirror and bump the version whenever the API changes.
 
+## 1.0.2 (2026-11-06)
+
+- Docs mirror and `schema.graphql` re-copied from taddy.org.
+- Schema: the webhook mutations and the `WebhookFilterInput` / `WebhookFilter` fields now have descriptions, covering AllowList and BlockList, AND/OR filter matching, and the fact that `updateWebhookFilter` replaces the whole filter.
+- `getPopularContent`, `getTopChartsByCountry` and `getTopChartsByGenres` now allow page 8 at most (was 20).
+- Search: the `matchBy` options are now `MOST_TERMS`, `ALL_TERMS` and `EXACT_PHRASE` (`FREQUENCY` is gone). `search.md` adds a section saying that transcript text is not searched.
+- Transcripts: the wording says Paid, or Pro or Business, where it used to say Business. `taddyTranscribeStatus` explains that a transcript can be generated on demand whatever the status.
+- `ai-tools-mcp-server.md`, the intro page and the "Get Started" banners now point to the skill and the MCP server.
+
 ## 1.0.1 (2026-11-05)
 
 - README: rewrote the install instructions. Notes that Claude Code and Codex plugins can auto-update, adds the Codex `/plugin` step, and replaces `npx skills add` with a prompt that asks the agent to download the skill.
