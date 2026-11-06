@@ -59,7 +59,7 @@ type Chapter {
 
 """ A url link to the chapters for an episode """
 type ChapterLink {
-  """ If the transcript is exclusive to Taddy API Business users and you need an API key to access it 
+  """ If the transcript is exclusive to Taddy API Paid users. It uses a transcription credit to access it 
   """
   isTaddyExclusive: Boolean
 
@@ -824,13 +824,34 @@ enum Language {
 """ Please go to https://taddy.org/developers for full documentation of the API 
 """
 type Mutation {
+  """ Add one podcast to a filter's AllowList. Once the AllowList has any entries, the filter only matches content from podcasts on the list. contentUuid can be a podcast uuid, rssUrl or itunesId 
+  """
   addUuidToWebhookFilterAllowlist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
+
+  """ Add one podcast to a filter's BlockList so content from that podcast never matches the filter. contentUuid can be a podcast uuid, rssUrl or itunesId 
+  """
   addUuidToWebhookFilterBlocklist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
+
+  """ Add a filter to a webhook. Each filter applies to one event type. An event is sent if any filter for its event type matches (OR). A filter matches when all of its clauses match (AND) and the content passes its AllowList and BlockList. Event types with no filters send every event 
+  """
   addWebhookFilter(filter: WebhookFilterInput!, webhookId: ID!): Webhook
+
+  """ Create a webhook that sends the listed events (e.g. podcastepisode.created) to endpointUrl. Requires a Business plan 
+  """
   addWebhookUrlForUser(endpointUrl: String!, webhookEvents: [String!]!): Webhook
+
+  """ Remove one entry from a filter's AllowList. When the last entry is removed, the filter matches content from any podcast again 
+  """
   deleteUuidFromWebhookFilterAllowlist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
+
+  """ Remove one entry from a filter's BlockList """
   deleteUuidFromWebhookFilterBlocklist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
+
+  """ Delete a filter, along with its AllowList and BlockList """
   deleteWebhookFilter(filterUuid: ID!, webhookId: ID!): Webhook
+
+  """ Delete a webhook so it stops receiving events. Returns the id of the deleted webhook, or 0 if you have no webhook with that id 
+  """
   deleteWebhookForUser(id: ID!): ID
 
   """ Send a mock webhook event to test filters and endpoint delivery. Fetches the content, applies the filters for that event type and sends the event to your endpoint. Returns true if a filter matched (or the event type has no filters) and the event was sent, false if nothing matched, the webhook is not subscribed to the event type, or the uuid was not found. A non-200 response from your endpoint still returns true; mock events are not recorded as failed and cannot be replayed. 
@@ -840,7 +861,13 @@ type Mutation {
   """ Replay all failed webhook events for a webhook. Returns the number of failed events stored for this webhook, which are then queued and resent asynchronously; it is not the number successfully redelivered. Mock events are never recorded as failed and are not replayed. 
   """
   replayFailedWebhookEvents(webhookId: ID!): Int
+
+  """ updateWebhookFilter is a full replace of the filter. If you want to update, read the filter first and send the whole thing back with your updates. When you read a filter back, each clause comes as one string, clauseN, in the form 'field' MATCHES 'regex' (null when the clause is not set). To turn it back into fieldN / valueN, split on the first ' MATCHES '. 
+  """
   updateWebhookFilter(filter: WebhookFilterInput!, filterUuid: ID!, webhookId: ID!): Webhook
+
+  """ Change a webhook's endpointUrl and events. webhookEvents replaces the whole list of events, so send every event you still want. Filters are not changed 
+  """
   updateWebhookForUser(endpointUrl: String!, id: ID!, webhookEvents: [String!]!): Webhook
 }
 
@@ -957,7 +984,8 @@ type PodcastEpisode {
   """
   subtitle: String
 
-  """ Status of transcript (complete, processing, not transcribed) """
+  """ Status of whether a transcript has already been generated for this episode. Regardless of this status, Taddy API can generate a transcript on-demand when you request one (see transcript or getEpisodeTranscript). 
+  """
   taddyTranscribeStatus: PodcastEpisodeTranscriptionStatus
 
   """ Downloads the transcript, parses it and returns an array of text in paragraphs. 
@@ -972,11 +1000,11 @@ type PodcastEpisode {
     useOnlyPodcastProvidedTranscript: Boolean
   ): [String]
 
-  """ A list of urls where you can download the transcript for this episode 
+  """ A list of urls where you can download the transcript for this episode (podcast-provided and Taddy-generated, if available) 
   """
   transcriptUrls: [String]
 
-  """ A list of urls where you can download the transcript for this episode, including more details 
+  """ A list of urls where you can download the transcript for this episode, including more details (type, language, timecodes, if it is a Taddy-generated transcript) 
   """
   transcriptUrlsWithDetails: [TranscriptLink]
 
@@ -1132,7 +1160,8 @@ type PodcastSeries {
   """ Podcast type (serial or episodic) """
   seriesType: PodcastSeriesType
 
-  """ Whether the podcast is being automatically transcribed by our API """
+  """ Whether Taddy API has already transcribed the back catalog of previous episodes and is automatically transcribing new episodes for this podcast. Regardless of this status, Taddy API can generate a transcript for any episode on-demand when you request one (see PodcastEpisode.transcript or getEpisodeTranscript). 
+  """
   taddyTranscribeStatus: PodcastSeriesTranscriptionStatus
 
   """ The number of episodes for this podcast """
@@ -1301,7 +1330,7 @@ type Query {
     """
     limitPerPage: Int
 
-    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. 
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. 
     """
     page: Int
 
@@ -1319,7 +1348,7 @@ type Query {
     """
     limitPerPage: Int
 
-    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. 
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. 
     """
     page: Int
 
@@ -1344,7 +1373,7 @@ type Query {
     """
     limitPerPage: Int
 
-    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. 
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. 
     """
     page: Int
 
@@ -1662,7 +1691,7 @@ type TranscriptLink {
   """ (Optional) If the transcript has timecodes """
   hasTimecodes: Boolean
 
-  """ If the transcript is exclusive to Taddy API Business users and you need an API key to access it 
+  """ If the transcript is exclusive to Taddy API Paid users. It uses a transcription credit to access it 
   """
   isTaddyExclusive: Boolean
 
@@ -1729,56 +1758,45 @@ type WebhookFilter {
   """
   clause1: String
 
-  """ Clause 2, same format as clause1 
-  """
+  """ Clause 2, same format as clause1 """
   clause2: String
 
-  """ Clause 3, same format as clause1 
-  """
+  """ Clause 3, same format as clause1 """
   clause3: String
 
-  """ Clause 4, same format as clause1 
-  """
+  """ Clause 4, same format as clause1 """
   clause4: String
 
-  """ Clause 5, same format as clause1 
-  """
+  """ Clause 5, same format as clause1 """
   clause5: String
 
-  """ The label you gave the filter 
+  """ (Optional) Your description for this filter. Not used for matching but useful for your own internal use 
   """
   description: String
 
-  """ The event type this filter applies to (e.g. podcastepisode.created) 
-  """
+  """ The event type this filter applies to (e.g. podcastepisode.created) """
   eventType: String!
 
-  """ BlockList entries 
-  """
+  """ BlockList entries """
   excludedUuids: [String]
 
-  """ True if the filter has a BlockList 
-  """
+  """ True if the filter has a BlockList """
   hasExcludedUuids: Boolean
 
-  """ True if the filter has an AllowList 
-  """
+  """ True if the filter has an AllowList """
   hasIncludedUuids: Boolean
 
-  """ AllowList entries 
-  """
+  """ AllowList entries """
   includedUuids: [String]
 
-  """ The unique identifier for the filter 
-  """
+  """ The unique identifier for the filter """
   uuid: ID!
 
-  """ The webhook this filter belongs to 
-  """
+  """ The webhook this filter belongs to """
   webhookId: ID
 }
 
-""" Input for creating/updating a filter. See references/webhook-filters.md for the fields you can filter on """
+""" Input for creating/updating a filter """
 input WebhookFilterInput {
   """ (Optional) A label for this filter. Not used for matching, so you can store your own key in it (e.g. watchlist:AAPL:name) 
   """
@@ -1796,20 +1814,16 @@ input WebhookFilterInput {
   """
   field1: String
 
-  """ (Optional) Clause 2, see field1 
-  """
+  """ (Optional) Clause 2, see field1 """
   field2: String
 
-  """ (Optional) Clause 3, see field1 
-  """
+  """ (Optional) Clause 3, see field1 """
   field3: String
 
-  """ (Optional) Clause 4, see field1 
-  """
+  """ (Optional) Clause 4, see field1 """
   field4: String
 
-  """ (Optional) Clause 5, see field1 
-  """
+  """ (Optional) Clause 5, see field1 """
   field5: String
 
   """ (Optional) AllowList: only content from these podcasts matches. Each entry is a podcast uuid, rssUrl or itunesId 
@@ -1820,20 +1834,16 @@ input WebhookFilterInput {
   """
   value1: String
 
-  """ (Optional) Clause 2, see value1 
-  """
+  """ (Optional) Clause 2, see value1 """
   value2: String
 
-  """ (Optional) Clause 3, see value1 
-  """
+  """ (Optional) Clause 3, see value1 """
   value3: String
 
-  """ (Optional) Clause 4, see value1 
-  """
+  """ (Optional) Clause 4, see value1 """
   value4: String
 
-  """ (Optional) Clause 5, see value1 
-  """
+  """ (Optional) Clause 5, see value1 """
   value5: String
 }
 

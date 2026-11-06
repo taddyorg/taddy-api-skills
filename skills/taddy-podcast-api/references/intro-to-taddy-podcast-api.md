@@ -10,9 +10,15 @@ To get started using our API, follow these steps:
 
 [https://www.youtube.com/watch?v=kzjSjVjCMlk](https://www.youtube.com/watch?v=kzjSjVjCMlk)
 
-## Hello World (Making your first request)
+## Start with Taddy API Skill
 
-Go to [**api.taddy.org](https://api.taddy.org)** on your browser and copy & paste the below query:
+We recommend adding our [open-source skill](https://github.com/taddyorg/taddy-api-skills) to your project. 
+
+It gives your AI coding tool (Claude Code, Codex, Cursor etc.) our full API docs in Markdown, our GraphQL schema, and best practices for things like pagination and error handling so you can easily add Taddy API to your app in minutes.
+
+## Making your first request
+
+If you’d rather make an API request yourself, go to [**api.taddy.org](https://api.taddy.org)** on your browser and copy & paste the below query:
 
 ```graphql
 {
@@ -57,13 +63,6 @@ You now have both your User ID and API Key and you will need to add both of them
 	"X-API-KEY": "96c5007c18858e86d..."
 }
 ```
-
-## **Useful Docs for AI**
-
-If you're using Claude Code, ChatGPT, Cursor etc, here are 2 resources that you can provide to your AI coding tool to give it useful context about our API:
-
-1. [**GraphQL Schema**](https://ax0.taddy.org/docs/schema.graphql) - The complete GraphQL schema with all available types, queries, and mutations available.
-2. [**Taddy API Documentation**](https://ax0.taddy.org/docs/taddy-api-docs.md) - The full documentation for Taddy API in one big markdown file.
 
 ## GraphQL vs REST APIs
 
@@ -230,7 +229,7 @@ Here is an example: (123 is not a valid uuid because a valid uuid has to be 36 c
 | `QUERY_TOO_COMPLEX` | `400` | Your query is too complex. Every field you request adds to the query's cost, and fields inside a list are multiplied by the number of items requested. The error's `extensions.queryCost` and `extensions.maxQueryCostAllowed` tell you how much you need to cut. Remove fields, or request fewer items, and try again. |
 | `BAD_USER_INPUT` | `200` | One of the arguments you passed in is invalid. Use the message value to get more details on what is invalid. |
 | `REQUIRES_USER_AUTHENTICATION` | `200` | You need to be logged in to make that request. |
-| `ACCESS_NOT_ALLOWED` | `200` | You are not allowed to access this feature, query or mutation. (e.g. access to webhooks) |
+| `ACCESS_NOT_ALLOWED` | `200` | You are not allowed to access this feature, query or mutation. (e.g. access to webhooks or episode transcripts not provided by the podcast) |
 | `TADDY_SERVER_ERROR` | `200` | Something is wrong on our end. We monitor for this, but feel free to reach out to danny@taddy.org if you keep getting this error. |
 
 `400`, `401` and `429` status codes mean your request was rejected before it ran, so there will be no `data` field returned.

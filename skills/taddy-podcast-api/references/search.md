@@ -176,7 +176,7 @@ You can filter your search for results from a specific country, genre, language,
 }
 ```
 
-**Note:** All Taddy users can view transcripts that have been provided by the podcast, but you will need to be a Taddy Business user to view [transcripts that we automatically generate](./episode-transcripts.md).  
+**Note:** All Taddy users can view transcripts that have been provided by the podcast, but you will need to be a Taddy Pro or Business user to view [transcripts that we automatically generate](./episode-transcripts.md).  
 
 9. Searching for the term "James Webb Space Telescope" but filter only for episodes from the podcast StarTalk Radio.
 
@@ -242,6 +242,12 @@ You can filter your search for results from a specific country, genre, language,
   }
 }
 ```
+
+### What is matched by search
+
+Search matches your term against the the podcast’s or episode’s metadata, including its name, description, the podcast's creators name, and other relevant fields. The transcript text is not searched. 
+
+**Note:** Since the text in a transcript is not searched, an episode that discusses a topic in audio but it is not mentioned in the title or description or relevant fields, it will not be matched. 
 
 ## Query Input:
 
@@ -311,7 +317,7 @@ filterForHasChapters: Boolean
 " (Optional) Choose how the results are sorted. Default is sort by EXACTNESS. Possible values are EXACTNESS and POPULARITY. "
 sortBy: SearchSortOrder
 
-" (Optional) Choose which results are matched as valid search results. Default is MOST_TERMS. Possible values are MOST_TERMS, ALL_TERMS, FREQUENCY. If you search has multiple terms, FREQUENCY gives more weight to the terms that appear less frequently in results "
+" (Optional) Choose which results are matched as valid search results. Default is MOST_TERMS. Possible values are MOST_TERMS (any of the words), ALL_TERMS (all of the words, in any order) and EXACT_PHRASE (the words together, in order) "
 matchBy: SearchMatchType
 
 " (Optional) Choose to only return safe (not explicit) content or all content. Default is false (include everything, including explicit content) "
@@ -364,7 +370,7 @@ responseDetails: [SearchResponseDetails]
 [SearchResponseDetails](./search-query-response-details.md)
 
 <aside>
-👋 If you are new to using Taddy’s API, **Get Started** with our [**🤖 Intro to Taddy’s API](./intro-to-taddy-podcast-api.md).**
+👋 **Get Started** by adding the [**Taddy API Skill**](./ai-tools-mcp-server.md) to your project.
 
 </aside>
 

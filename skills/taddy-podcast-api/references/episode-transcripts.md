@@ -75,7 +75,7 @@ Paid users ([Pro and Business users](./pricing.md)) get access to transcripts fr
 
 - 100 episode transcripts/month are included on the Pro Plan
 - 2000 episode transcripts/month are included on the Business Plan
-- If you need more transcript? Business users can buy additional packs. Each pack contains 3,000 episode transcripts/month for $75/month (2.5c per transcript). Turn on Auto-scaling episode transcripts on the Taddy Dashboard. It turns on the ability to automatically buy additional packs when you reach 95% of your current transcript limit.
+- Do you need more transcripts? Business users can buy additional transcription packs. Each pack contains 3,000 episode transcripts/month for $75/month (2.5c per transcript). Turn on Auto-scaling episode transcripts on the Taddy Dashboard. It turns on the ability to automatically buy additional packs when you reach 95% of your current transcript limit. You can also set a limit of how many packs you can buy in a month.
 - If an episode provides its own text transcript with timecodes i.e.) if a transcript is provided in WEBVTT (.vtt) or SubRip (.srt) format, we use that transcript and do not generate our own transcript. This transcript is available to all Taddy API users (Free and Paid) and does not count against your episode transcripts/month.
 - A transcript credit is used only if the podcast has not provided a transcript and you want to use Taddy API to generate one for you. **Note:** A credit is used whether we have already transcribed the episode (if its an episode from one of the 5000 most popular podcasts that we transcribe as they are released) or any episode you request to transcribe on-demand.
 - You can request the same transcript multiple times in the same month and it will only count once. We keep track of all the transcripts that a user has requested for that month and reset it when your billing cycle resets every month.
@@ -219,7 +219,7 @@ transcriptUrlsWithDetails: [TranscriptLink]
 [PodcastEpisode](./podcastepisode.md)
 
 <aside>
-👋 If you are new to using Taddy’s API, **Get Started** with our [**🤖 Intro to Taddy’s API](./intro-to-taddy-podcast-api.md).**
+👋 **Get Started** by adding the [**Taddy API Skill**](./ai-tools-mcp-server.md) to your project.
 
 </aside>
 

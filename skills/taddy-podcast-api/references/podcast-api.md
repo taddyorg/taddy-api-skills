@@ -16,7 +16,7 @@ An API for developers to get details on over 4 million podcasts, 200 million epi
 - **Enterprise features:** [Bulk download all 4+ million podcasts](./bulk-download-podcastseries.md) from our directory.
 
 <aside>
-👋 If you are new to using Taddy’s API, **Get Started** with our [**🤖 Intro to Taddy’s API](./intro-to-taddy-podcast-api.md).**
+👋 **Get Started** by adding the [🤖 Taddy API Skill](./ai-tools-mcp-server.md) to your project.
 
 </aside>
 
@@ -113,5 +113,3 @@ Blog Posts:
 [PodcastIndex.org API vs Taddy - Which is better?](https://taddy.org/blog/podcastindex-vs-taddy-podcast-api)
 
 [Should I rebuild my app on Bluesky’s AT Protocol?](https://taddy.org/blog/indie-developer-weighs-pro-cons-of-rebuilding-app-on-atprotocol)
-
-- **Download our Docs:** [Download our docs](./helpful-docs-for-ai-coding-tools.md) to give your .

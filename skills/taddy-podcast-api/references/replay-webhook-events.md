@@ -15,6 +15,7 @@ mutation {
 - When you call replayFailedWebhookEvents, failed events are queued to replay to your endpoint immediately but may take a few moments for the first event to arrive (depending on the volume of failed events and how busy the queue is).
 - When you are replaying an event, if it returns a `200` status code, we remove the record from our database and it won't be included in future replays.
 - When you are replaying an event, if it fails again, the failed record remains and will be included in future replay attempts.
+- The return value for this mutation is the number of failed events stored for this webhook when you call it, which is the number queued for replay. Replay runs asynchronously after the mutation returns, so watch your endpoint (or call again later and see the count fall) for the outcome. `0` means no failed events are stored and nothing needs to be replayed.
 
 Back to:
 

@@ -25,7 +25,31 @@ In the example below I’ve set up a filter to only receive webhook events when 
 
 ![Webhook filter regex example](https://ax0.taddy.org/docs/webhook-filter-example.png)
 
-On Taddy’s server,  whenever a new episode is released, we check whether it matches any of your filters. If it does, we send the event to your webhook endpoint. Here's an example webhook event for a newly released episode that matches our example filter:
+## Regex Examples
+
+| Pattern | Matches |
+| --- | --- |
+| `tech|developer` | Contains "tech" or “developer” |
+| `developer api|dev tools`  | Matching words can contain spaces |
+| `\btech\b` | Matching whole word "tech" (won't match "techno" or "biotech") |
+| `the.+show` | Use `.+` as a wildcard to match unknown text. This matches "The Daily Show" or "The Late Night Show" |
+| `\b(chris )?lattner\b` | Matches for Chris Lattner or just Lattner |
+| `\b(chris )?lattner\b` AND `\b(apple|google|tesla|modular|mojo)\b` | You can add multiple conditions. This allows you match for more complex queries like: Chris Lattner AND (Apple or Google or Tesla or Modular or Mojo - places where he has worked). See Example 2 below for more details. |
+| `TOP_(200|1000|2000|3000|4000|5000)` | Check if a podcast is a TOP_200 to TOP_5000 podcast |
+| `\bapple\b(?! podcasts)` | Match "apple" and exclude the next word "podcasts” |
+
+**Notes:**
+
+- Regex uses case insensitive matching (`iPod` and `ipod` are equivalent)
+- Regex is matched anywhere in the value: `apple` also matches "pineapple". Use `\bapple\b`to match the whole word.
+- We block regex patterns containing `*` , but not `+` . Use `.+` instead as a wildcard to match unknown text.
+- If the property you are matching against returns an array, we will check each item in the array and check if it matches your regex expression. For example, In the zune example above, `podcastSeries.genres` returns the array `["PODCASTSERIES_TECHNOLOGY", "PODCASTSERIES_NEWS", "PODCASTSERIES_NEWS_TECH"]`. If you add an regex expression that matches for `PODCASTSERIES_TECHNOLOGY` we will successfully find this match.
+- A clause never matches when the value is null, empty, `false` or `0`.
+- There is a 500 character limit for regex expressions.
+
+## Webhook Event Example
+
+On Taddy’s server,  whenever a new episode is released, we check whether it matches any of your filters. If it does, we send the event to your webhook endpoint. Here's an example webhook event for a newly released episode:
 
 ```graphql
 // EXAMPLE WEBHOOK event for a PodcastEpisode
@@ -71,28 +95,22 @@ On Taddy’s server,  whenever a new episode is released, we check whether it ma
 **Notes:**
 
 - You can set up multiple filters, when there is a new podcast or episode data, we check to see if it successfully matches regex expressions from ANY of your filters.
-- By default, Business accounts come with 100 webhook filters, contact [`danny@taddy.org`](mailto:danny@taddy.org) if you’d like to add more to your account.
+- Inside one filter every clause must match (treat each clause like an AND). Across filters, any filter can match (treat each filter like an OR). To match a term that could be in its name or its description, you should create two filters, one for `name` and one for `description`.
+- You can use regex  `|` (or) to combine multiple terms you want to match in one filter. e.g.) matching `description` to `\b(radio|ipod|sony walkman|zune)\b`
+- Filters only narrow the event types they are set on. If an event type has no filter at all, you receive every event of that type; a filter on `podcastepisode.created` does not affect `podcastepisode.updated`.
 - If more than one filter matches for a webhook event, you still receive only one webhook event to your endpoint. The `matchingFilters` array will contain all the filter uuids that successfully matched for this event.
+- By default, Business accounts come with 100 webhook filters, contact [`danny@taddy.org`](mailto:danny@taddy.org) if you’d like to add more to your account.
 - You can add, update or remove filters via our Dashboard, but you can also do it via GraphQL mutations. See **Programmatically Adding and Removing Filters** section below.
 
-## Regex Examples
+## Fields you can filter on
 
-| Pattern | Matches |
+A filter is an event type (`podcastepisode.created`, `podcastseries.updated`, ...) plus up to five clauses. Each clause is a field from the webhook event. Which fields are valid depends on the type being sent:.
+
+| Event type starts with | Fields |
 | --- | --- |
-| `tech|developer` | Contains "tech" or “developer” |
-| `developer api|dev tools`  | Matching words can contain spaces |
-| `\btech\b` | Matching whole word "tech" (won't match "techno" or "biotech") |
-| `the.+show` | Use `.+` as a wildcard to match unknown text. This matches "The Daily Show" or "The Late Night Show" |
-| `\b(chris )?lattner\b` | Matches for Chris Lattner or just Lattner |
-| `\b(chris )?lattner\b` AND `\b(apple|google|tesla|modular|mojo)\b` | You can add multiple conditions. This allows you match for more complex queries like: Chris Lattner AND (Apple or Google or Tesla or Modular or Mojo - places where he has worked). See Example 2 below for more details. |
-| `TOP_(200|1000|2000|3000|4000|5000)` | Check if a podcast is a TOP_200 to TOP_5000 podcast |
-
-**Notes:**
-
-- We do case insensitive matching (regex containing iPod vs ipod is equivalent)
-- There is a 500 character limit for regex expressions.
-- We block regex patterns containing `*` , but not `+` . Use `.+` instead as a wildcard to match unknown text.
-- If the property you are matching against returns an array, we will check each item in the array and check if it matches your regex expression. For example, In the zune example above, `podcastSeries.genres` returns the array `["PODCASTSERIES_TECHNOLOGY", "PODCASTSERIES_NEWS", "PODCASTSERIES_NEWS_TECH"]`. If you add an regex expression that matches for `PODCASTSERIES_TECHNOLOGY` we will successfully find this match.
+| `podcastepisode.` | `uuid`, `hash`, `name`, `description`, `imageUrl`, `datePublished`, `guid`, `subtitle`, `audioUrl`, `videoUrl`, `fileLength`, `fileType`, `duration`, `episodeType`, `seasonNumber`, `episodeNumber`, `websiteUrl`, `isExplicitContent`, `isRemoved`, `podcastSeries.uuid`, `podcastSeries.name`, `podcastSeries.rssUrl`, `podcastSeries.itunesId`, `podcastSeries.language`, `podcastSeries.genres`, `podcastSeries.popularityRank` |
+| `podcastseries.` | `uuid`, `hash`, `name`, `description`, `imageUrl`, `datePublished`, `language`, `seriesType`, `contentType`, `isExplicitContent`, `copyright`, `websiteUrl`, `rssUrl`, `rssOwnerName`, `rssOwnerPublicEmail`, `authorName`, `isCompleted`, `isBlocked`, `itunesId`, `genres`, `childrenHash`, `popularityRank`, `itunesInfo.uuid`, `itunesInfo.publisherId`, `itunesInfo.publisherName`, `itunesInfo.baseArtworkUrl` |
+| `itunesinfo.` | `uuid`, `hash`, `subtitle`, `summary`, `baseArtworkUrl`, `publisherId`, `publisherName`, `country`, `podcastSeries.uuid`, `podcastSeries.name`, `podcastSeries.rssUrl`, `podcastSeries.itunesId`, `podcastSeries.language`, `podcastSeries.genres`, `podcastSeries.popularityRank` |
 
 ## AllowList & BlockList
 
@@ -115,9 +133,15 @@ To every filter, you can also add a list of podcast uuids that the content has t
 
 ![Alternate webhook filter example](https://ax0.taddy.org/docs/webhook-filter-example-4.png)
 
-**Example 2:** Notify me when a new interview of Chris Lattner is released. I want to make sure it is the Chris Lattner in tech, so I'm also going to check if the episode also has (Apple, Google, Tesla, Modular, Mojo - the companies he has worked in) in its description
+**Example 2:** Notify me when a new interview of Chris Lattner is released. I want to make sure it is the Chris Lattner in tech, so I'm also going to check that the episode's description mentions a company he has worked at (Apple, Google, Tesla, Modular, Mojo). His name can be in the title or in the description, and every clause in one filter must match, so this is two filters:
+
+Filter 1:
 
 - `name` MATCHES `\b(chris )?lattner\b`
+- `description` MATCHES `\b(apple|google|tesla|modular|mojo)\b`
+
+Filter 2:
+
 - `description` MATCHES `\b(chris )?lattner\b`
 - `description` MATCHES `\b(apple|google|tesla|modular|mojo)\b`
 
@@ -127,7 +151,7 @@ To every filter, you can also add a list of podcast uuids that the content has t
 
 **Example 4:** Notify me when a new episode is released in the any of the Business sub-genres (`PODCASTSERIES_BUSINESS`, `PODCASTSERIES_BUSINESS_CAREERS`, `PODCASTSERIES_BUSINESS_ENTREPRENEURSHIP`, `PODCASTSERIES_BUSINESS_INVESTING`, `PODCASTSERIES_BUSINESS_MANAGEMENT`, `PODCASTSERIES_BUSINESS_MARKETING`, `PODCASTSERIES_BUSINESS_NON_PROFIT`) 
 
-- `podcastSeries.genre` MATCHES `PODCASTSERIES_BUSINESS`
+- `podcastSeries.genres` MATCHES `PODCASTSERIES_BUSINESS`
 
 **Example 5:** Notify me when a new episode is released where the episode’s duration is greater than 1 hour (3600 seconds):.
 
@@ -156,7 +180,7 @@ mutation MockWebhookEvent($webhookId: ID!, $taddyType: String!, $action: Webhook
 # input for mockWebhookEvent
 {
   "webhookId": "your-webhook-id",
-  "taddyType": "podcastseries", # podcastseries, or podcastepisode
+  "taddyType": "podcastseries", # podcastseries, podcastepisode or itunesinfo
   "action": "created", # created, updated, or deleted
   "contentUuid": "content-uuid"
 }
@@ -187,8 +211,6 @@ mutation DeleteWebhookFilter($webhookId: ID!, $filterUuid: ID!) {
   }
 }
 ```
-
-Try this out at: [https://api.taddy.org](https://api.taddy.org) (our GraphQL Playground)
 
 You can also add or remove items to the allowlist or blocklist programmatically.
 
@@ -225,6 +247,8 @@ Back to:
 [Webhooks](./webhooks.md)
 
 GraphQL Types mentioned:  
+
+[Webhook Types](./webhook-filter-type.md)
 
 [PodcastSeries](./podcastseries.md)
 

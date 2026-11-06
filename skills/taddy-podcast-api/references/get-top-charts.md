@@ -112,7 +112,7 @@ country: Country!
 " (Optional) The platform to check for top charts content. Default is APPLE_PODCASTS "
 source: TopChartsSource
 
-" (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. "
+" (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. "
 page: Int
 
 " (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) "
@@ -169,7 +169,7 @@ podcastEpisodes: [PodcastEpisode]
 [TopChartsType](./top-charts-type.md)
 
 <aside>
-👋 If you are new to using Taddy’s API, **Get Started** with our [**🤖 Intro to Taddy’s API](./intro-to-taddy-podcast-api.md).**
+👋 **Get Started** by adding the [**Taddy API Skill**](./ai-tools-mcp-server.md) to your project.
 
 </aside>
 

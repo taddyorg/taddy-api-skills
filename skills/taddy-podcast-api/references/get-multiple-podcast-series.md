@@ -201,7 +201,7 @@ isBlocked: Boolean
 [FeedRefreshDetails](./feed-refresh-details.md)
 
 <aside>
-👋 If you are new to using Taddy’s API, **Get Started** with our [**🤖 Intro to Taddy’s API](./intro-to-taddy-podcast-api.md).**
+👋 **Get Started** by adding the [**Taddy API Skill**](./ai-tools-mcp-server.md) to your project.
 
 </aside>
 

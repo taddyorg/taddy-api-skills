@@ -32,6 +32,7 @@ Then, make sure you:
 - The endpoint url you enter into the Taddy API Dashboard needs to be one publicly accessible over the internet. (For example, 127.0.0.1 and localhost URLs will not work, since Taddy servers will not be able to contact your local computer). If you’d like to test receiving these notifications locally on your computer, [Cloudflare Quick Tunnel](https://try.cloudflare.com) or [Ngrok](https://ngrok.com) provide useful & free options to do so. (They provides you a public url that is mapped to your localhost).
 - Your endpoint url needs to be a  `POST` endpoint
 - On the Taddy API Dashboard, after you set up a webhook we will display your webhook’s secret. This is an optional but recommended security feature. We include this secret in the `X-TADDY-WEBHOOK-SECRET` header with every webhook event sent to your endpoint. Keep this secret confidential, your endpoint URL may be publicly accessible, but by verifying that the `X-TADDY-WEBHOOK-SECRET` header matches your secret you can be confident that any data you receive on your endpoint is from us and can be trusted.
+- You can also create the endpoint programatically from code: `addWebhookUrlForUser(endpointUrl: "https://...", webhookEvents: ["podcastepisode.created"])` returns the `Webhook` with its `id` and `webhookSecret`. `updateWebhookForUser` is used to update the webhook.
 - By default, every business account has access to one webhook endpoint. Reach out to `danny@taddy.org` if would like to increase your limits.
 
 ## Webhook Events

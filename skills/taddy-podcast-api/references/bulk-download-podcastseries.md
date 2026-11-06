@@ -19,7 +19,7 @@ When used together, the database export and webhooks allow you to keep your own 
 
 ### **Why Choose This Option?**
 
-This option is ideal if you want complete control over your podcast data. If you are unsure, start with Taddy’s API for simplicity, and transition to full data control if / when needed. 
+This option is ideal if you want complete control over your podcast data. If you are unsure, start using podcast data via our API for simplicity, and transition to full data control if / when needed. 
 
 ## **Export data from Taddy API**:
 

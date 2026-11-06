@@ -2,6 +2,13 @@
 
 Recent updates to Taddy API. 
 
+## Skill & MCP Server for Taddy API
+
+November 5, 2026
+
+- An [open-source skill](https://github.com/taddyorg/taddy-api-skills) that has our docs, GraphQL Schema, and best practices for things like pagination and error handling.
+- An MCP server available at [https://taddy.org/mcp/podcast-api](https://taddy.org/mcp/podcast-api)
+
 ## New `useOnlyPodcastProvidedTranscript` argument for transcripts
 
 October 2, 2026

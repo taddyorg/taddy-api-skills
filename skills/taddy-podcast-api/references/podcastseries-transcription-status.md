@@ -10,7 +10,7 @@ enum PodcastSeriesTranscriptionStatus {
 }
 ```
 
-`TRANSCRIBING` - Taddy API Business Users get access to automatically generated transcripts and chapters for episodes of this podcast. 
+`TRANSCRIBING` - Taddy API Pro and Business users get access to automatically generated transcripts and chapters for episodes of this podcast. 
 
 `NOT_TRANSCRIBING` - We do not automatically generate transcripts or chapters. 
 
