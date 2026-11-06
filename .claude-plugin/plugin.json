@@ -1,6 +1,6 @@
 {
   "name": "taddy-podcast-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "GraphQL schema, Docs and best practices to help integrate Taddy Podcast API into your app, including details on any podcast and episode, full-text search, latest episode from multiple podcasts, Apple Podcasts top charts, episode transcripts, and real-time updates via webhooks.",
   "author": {
     "name": "Taddy API",

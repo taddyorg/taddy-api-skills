@@ -3,8 +3,8 @@ name: taddy-podcast-api
 description: 'Build against the Taddy API (api.taddy.org), a GraphQL API for podcast data: details on any podcast or episode, full-text search, latest episodes across a list of podcasts, Apple top charts, episode transcripts, and webhooks for new or updated podcasts or episodes. Use this skill whenever the user mentions Taddy, a podcast API, podcast or episode data, transcripts, podcast or episode search, podcast webhooks, RSS feed monitoring, or podcast charts, or is building anything that needs podcast data (a player, a feed, a newsletter, brand monitoring, a research tool), even if they never say "Taddy". Also use it for Taddy error codes, API key and auth setup, rate limits, API request counts, or transcript credits.'
 license: MIT
 metadata:
-  version: "1.0.0"
-  updated: "2026-11-02"
+  version: "1.0.1"
+  updated: "2026-11-05"
   source: "https://github.com/taddyorg/taddy-api-skills"
 ---
 
