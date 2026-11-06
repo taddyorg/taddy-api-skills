@@ -13,26 +13,24 @@ Agent skills for building on [Taddy API](https://taddy.org/developers/podcast-ap
 ```
 /plugin marketplace add taddyorg/taddy-api-skills
 /plugin install taddy-podcast-api@taddy-api
+# Plugins have the ability to auto-update
 ```
-
-For updates, enable auto-update for the `taddy-api` marketplace in `/plugin`.
 
 ### Codex
 
 ```
 codex plugin marketplace add taddyorg/taddy-api-skills
+# Then open Codex and run /plugin and pick Taddy Podcast API
+# Plugins have the ability to auto-update
 ```
 
-Then install `taddy-podcast-api` from the Plugins directory.
-
 ### Cursor
-
 Add this repo as a team marketplace in **Dashboard → Plugins → Add Marketplace → Import from Repo**.
 
 ### Other agents
 
 ```
-npx skills add taddyorg/taddy-api-skills
+# Ask AI Agent to: Download the Taddy API skill from https://github.com/taddyorg/taddy-api-skills into your project's skills folder
 ```
 
 ## Layout
