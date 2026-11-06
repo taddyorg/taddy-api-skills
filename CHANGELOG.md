@@ -2,6 +2,10 @@
 
 Skill versions track the bundled `references/schema.graphql`, downloaded from `https://ax0.taddy.org/docs/taddy-podcast-api-schema.graphql` at each release. Re-copy the docs mirror and bump the version whenever the API changes.
 
+## 1.0.3 (2026-11-06)
+
+- README: install is now one prompt that asks the agent to download the skill. The per-agent Claude Code, Codex and Cursor marketplace steps are gone. "Layout" is renamed "Architecture".
+
 ## 1.0.2 (2026-11-06)
 
 - Docs mirror and `schema.graphql` re-copied from taddy.org.
