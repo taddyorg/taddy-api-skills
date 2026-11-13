@@ -2,6 +2,12 @@
 
 Skill versions track the bundled `references/schema.graphql`, downloaded from `https://ax0.taddy.org/docs/taddy-podcast-api-schema.graphql` at each release. Re-copy the docs mirror and bump the version whenever the API changes.
 
+## 1.0.4 (2026-11-12)
+
+- Support tickets: new `references/support-tickets.md` for the `createSupportTicket` mutation and `getMySupportTickets` query. Report a broken or missing podcast (optional `seriesUuid`) from your backend, and get an email plus an optional POST to `callbackUrl` when Taddy resolves it. Listed in the SKILL.md decision table and reference routing.
+- `schema.graphql` re-copied: adds `SupportTicket`, `SupportTicketStatus` and `UserSupportTickets`.
+- Removed the skill feedback path (`references/skill-feedback.md`, `scripts/taddy_feedback.js`, and the "When the skill and the API disagree" section in SKILL.md). Its endpoint never shipped, and support tickets replace it.
+
 ## 1.0.3 (2026-11-06)
 
 - README: install is now one prompt that asks the agent to download the skill. The per-agent Claude Code, Codex and Cursor marketplace steps are gone. "Layout" is renamed "Architecture".

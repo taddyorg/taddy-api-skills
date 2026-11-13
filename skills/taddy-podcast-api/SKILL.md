@@ -3,8 +3,8 @@ name: taddy-podcast-api
 description: 'Build against the Taddy API (api.taddy.org), a GraphQL API for podcast data: details on any podcast or episode, full-text search, latest episodes across a list of podcasts, Apple top charts, episode transcripts, and webhooks for new or updated podcasts or episodes. Use this skill whenever the user mentions Taddy, a podcast API, podcast or episode data, transcripts, podcast or episode search, podcast webhooks, RSS feed monitoring, or podcast charts, or is building anything that needs podcast data (a player, a feed, a newsletter, brand monitoring, a research tool), even if they never say "Taddy". Also use it for Taddy error codes, API key and auth setup, rate limits, API request counts, or transcript credits.'
 license: MIT
 metadata:
-  version: "1.0.3"
-  updated: "2026-11-06"
+  version: "1.0.4"
+  updated: "2026-11-13"
   source: "https://github.com/taddyorg/taddy-api-skills"
 ---
 
@@ -48,10 +48,6 @@ grep -rn "TADDY_USER_ID\|TADDY_API_KEY\|api.taddy.org\|taddy" --include=*.{js,ts
 
 The error codes are `API_KEY_INVALID`, `API_RATE_LIMIT_EXCEEDED` (per-minute limit or monthly quota), `INVALID_QUERY_OR_SYNTAX`, `QUERY_TOO_COMPLEX`, `BAD_USER_INPUT`, `REQUIRES_USER_AUTHENTICATION`, `ACCESS_NOT_ALLOWED`, `TADDY_SERVER_ERROR`; they arrive in `errors[].code`. The first four come with HTTP 401, 429, 400, 400 and no `data` (the request was rejected before it ran); the rest come with HTTP 200 and partial `data`, so check `errors[]` on every response. Open `references/errors-and-quota.md`. It maps each code to a fix, and explains the two separate quotas (API requests and transcript credits).
 
-## When the skill and the API disagree, or a use case did not work
-
-At the end of the task, offer to report it to Taddy when the API contradicted this skill (a field, limit or behaviour from the schema or a reference page did not hold), when the user settled for a workaround or gave up, or when a reference page was unclear enough to cost several attempts. Open `references/skill-feedback.md`, write the draft it describes, run `scripts/taddy_feedback.js` without `--send` to scrub it, show the user the printed report, and run `--send` only after they say yes. Never send on your own, and never put app names, customer data or application code in the report.
-
 ## Query decision table
 
 | Intent | Query | Reference page |
@@ -69,6 +65,7 @@ At the end of the task, offer to report it to Taddy when the API contradicted th
 | Be told when podcasts or episodes are added or updated | Webhooks (dashboard setup), optional regex filters | `references/webhooks.md`, `references/webhook-filters.md` |
 | Detect changes without webhooks | `hash`, `childrenHash` on `PodcastSeries` | `references/podcastseries.md` |
 | Add a podcast to the directory | REST `POST https://taddy.org/feeds/add-podcastseries` | `references/add-a-podcastseries-to-taddy.md` |
+| Report unexpected results from the API (like a broken or missing podcast), or ask for a new feature, and be notified when Taddy resolves it | `createSupportTicket`, `getMySupportTickets` | `references/support-tickets.md` |
 | A copy of the whole directory | Not the query API; enterprise export plus webhooks | `references/bulk-download-podcastseries.md` |
 | Remaining monthly requests or transcript credits | `getApiRequestsRemaining`, `getTranscriptCreditsRemaining` | `references/errors-and-quota.md` |
 
@@ -118,7 +115,7 @@ Open the page that matches the task; each is self-contained. Type pages (Podcast
 | Throttled requests for loops, cron jobs, polling | `scripts/taddy_throttled.js`, `scripts/taddy_throttled.py` |
 | Starter code, plain | `scripts/taddy_client.js`, `scripts/taddy_client.py`, `scripts/taddy_throttled.js`, `scripts/taddy_throttled.py`, `scripts/webhook-express.js` |
 | Starter code, typed (TypeScript) | `scripts/taddy_client_typed.ts`, `scripts/codegen.ts`, `scripts/graphql/` (fragments and queries, including `scripts/graphql/queries/GetEpisodeTranscript.graphql`) |
-| Report a skill/API mismatch or a blocked use case to Taddy | `references/skill-feedback.md`, `scripts/taddy_feedback.js` |
+| Support tickets: report a broken or missing podcast or unexpected results from Taddy API, callback and email on resolve | `references/support-tickets.md` |
 | Taddy MCP server: install, tool-to-query map, how to use it next to this skill | `references/ai-tools-mcp-server.md` |
 
 ## Escape hatch

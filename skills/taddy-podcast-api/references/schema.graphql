@@ -1,12 +1,10 @@
 """ Directive to override the default cost of a field """
 directive @cost(value: Float!) on FIELD_DEFINITION
 
-""" Directive to override the default cost factor (list multiplier) of a field 
-"""
+""" Directive to override the default cost factor (list multiplier) of a field """
 directive @costFactor(value: Float!) on FIELD_DEFINITION
 
-""" An alternate enclosure for a podcast episode (from the tag <podcast:alternateEnclosure> in the RSS feed). 
-"""
+""" An alternate enclosure for a podcast episode (from the tag <podcast:alternateEnclosure> in the RSS feed). """
 type AlternateEnclosureLink {
   """ (Optional) Bitrate of media """
   bitrate: String
@@ -14,8 +12,7 @@ type AlternateEnclosureLink {
   """ (Optional) RFC 6381 codec string """
   codecs: String
 
-  """ (Optional) If true, this is the same content as the standard enclosure 
-  """
+  """ (Optional) If true, this is the same content as the standard enclosure """
   default: Boolean
 
   """ (Optional) Height in pixels (for video) """
@@ -24,15 +21,13 @@ type AlternateEnclosureLink {
   """ (Optional) BCP 47 language tag """
   lang: String
 
-  """ File size in bytes. Typed as Float (not Int) to support 64-bit integers (very large files) 
-  """
+  """ File size in bytes. Typed as Float (not Int) to support 64-bit integers (very large files) """
   length: Float
 
   """ (Optional) Relationship/grouping identifier """
   rel: String
 
-  """ (Optional) Content type of this specific source, if different from the media type 
-  """
+  """ (Optional) Content type of this specific source, if different from the media type """
   sourceContentType: String
 
   """ (Optional) Human-readable title """
@@ -59,8 +54,7 @@ type Chapter {
 
 """ A url link to the chapters for an episode """
 type ChapterLink {
-  """ If the transcript is exclusive to Taddy API Paid users. It uses a transcription credit to access it 
-  """
+  """ If the transcript is exclusive to Taddy API Paid users. It uses a transcription credit to access it """
   isTaddyExclusive: Boolean
 
   """ Mime type of file """
@@ -90,8 +84,7 @@ enum ComicSeriesType {
   WEBTOON
 }
 
-""" Content rating for different media types. Follows format: TYPE_RATING 
-"""
+""" Content rating for different media types. Follows format: TYPE_RATING """
 enum ContentRating {
   COMICSERIES_ADULTS
   COMICSERIES_BABY
@@ -102,8 +95,7 @@ enum ContentRating {
   COMICSERIES_TEENS
 }
 
-""" Content roles for different media types. Follows format: TYPE_ROLE_SUBROLE 
-"""
+""" Content roles for different media types. Follows format: TYPE_ROLE_SUBROLE """
 enum ContentRole {
   COMICSERIES_ARTIST
   COMICSERIES_ARTIST_COLORIST
@@ -469,13 +461,11 @@ enum FeedRefreshPriority {
   """ Feed is checked once a day for new updates """
   REGULAR
 
-  """ Feed checked immediately (within 30 mins) after it has been updated (via a Websub notification)
-  """
+  """ Feed checked immediately (within 30 mins) after it has been updated (via a Websub notification)"""
   WEBSUB
 }
 
-""" The different types of reasons why a feed has a LOW, INACTIVE, or NEVER priority 
-"""
+""" The different types of reasons why a feed has a LOW, INACTIVE, or NEVER priority """
 enum FeedRefreshPriorityReason {
   """ There is another feed in our database that links to the same content """
   DUPLICATE_FEED
@@ -490,8 +480,7 @@ enum FeedRefreshPriorityReason {
   INACTIVE_FOR_OVER_1_YEAR
 }
 
-""" Genres for different media types. Follows format: TYPE_GENRE_SUBGENRE 
-"""
+""" Genres for different media types. Follows format: TYPE_GENRE_SUBGENRE """
 enum Genre {
   COMICSERIES_ACTION
   COMICSERIES_ANIMALS
@@ -632,8 +621,7 @@ enum Genre {
   PODCASTSERIES_TV_AND_FILM_TV_REVIEWS
 }
 
-""" Languages (ISO 639-2 https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) 
-"""
+""" Languages (ISO 639-2 https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) """
 enum Language {
   ABKHAZIAN
   AFAR
@@ -821,27 +809,24 @@ enum Language {
   ZULU
 }
 
-""" Please go to https://taddy.org/developers for full documentation of the API 
-"""
+""" Please go to https://taddy.org/developers for full documentation of the API """
 type Mutation {
-  """ Add one podcast to a filter's AllowList. Once the AllowList has any entries, the filter only matches content from podcasts on the list. contentUuid can be a podcast uuid, rssUrl or itunesId 
-  """
+  """ Add one podcast to a filter's AllowList. Once the AllowList has any entries, the filter only matches content from podcasts on the list. contentUuid can be a podcast uuid, rssUrl or itunesId """
   addUuidToWebhookFilterAllowlist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
 
-  """ Add one podcast to a filter's BlockList so content from that podcast never matches the filter. contentUuid can be a podcast uuid, rssUrl or itunesId 
-  """
+  """ Add one podcast to a filter's BlockList so content from that podcast never matches the filter. contentUuid can be a podcast uuid, rssUrl or itunesId """
   addUuidToWebhookFilterBlocklist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
 
-  """ Add a filter to a webhook. Each filter applies to one event type. An event is sent if any filter for its event type matches (OR). A filter matches when all of its clauses match (AND) and the content passes its AllowList and BlockList. Event types with no filters send every event 
-  """
+  """ Add a filter to a webhook. Each filter applies to one event type. An event is sent if any filter for its event type matches (OR). A filter matches when all of its clauses match (AND) and the content passes its AllowList and BlockList. Event types with no filters send every event """
   addWebhookFilter(filter: WebhookFilterInput!, webhookId: ID!): Webhook
 
-  """ Create a webhook that sends the listed events (e.g. podcastepisode.created) to endpointUrl. Requires a Business plan 
-  """
+  """ Create a webhook that sends the listed events (e.g. podcastepisode.created) to endpointUrl. Requires a Business plan """
   addWebhookUrlForUser(endpointUrl: String!, webhookEvents: [String!]!): Webhook
 
-  """ Remove one entry from a filter's AllowList. When the last entry is removed, the filter matches content from any podcast again 
-  """
+  """ Create a support ticket for Taddy: a broken or missing feed, unexpected behaviour, or a feature request (comment is max 1000 characters). Pass seriesUuid if it is about a podcast. When the ticket is resolved, if you passed callbackUrl (https) Taddy POSTs { uuid, status, seriesUuid, resolutionNote, resolvedAt } to it, otherwise Taddy emails your account """
+  createSupportTicket(callbackUrl: String, comment: String!, seriesUuid: ID): SupportTicket
+
+  """ Remove one entry from a filter's AllowList. When the last entry is removed, the filter matches content from any podcast again """
   deleteUuidFromWebhookFilterAllowlist(contentUuid: String!, filterUuid: ID!, webhookId: ID!): WebhookFilter
 
   """ Remove one entry from a filter's BlockList """
@@ -850,24 +835,19 @@ type Mutation {
   """ Delete a filter, along with its AllowList and BlockList """
   deleteWebhookFilter(filterUuid: ID!, webhookId: ID!): Webhook
 
-  """ Delete a webhook so it stops receiving events. Returns the id of the deleted webhook, or 0 if you have no webhook with that id 
-  """
+  """ Delete a webhook so it stops receiving events. Returns the id of the deleted webhook, or 0 if you have no webhook with that id """
   deleteWebhookForUser(id: ID!): ID
 
-  """ Send a mock webhook event to test filters and endpoint delivery. Fetches the content, applies the filters for that event type and sends the event to your endpoint. Returns true if a filter matched (or the event type has no filters) and the event was sent, false if nothing matched, the webhook is not subscribed to the event type, or the uuid was not found. A non-200 response from your endpoint still returns true; mock events are not recorded as failed and cannot be replayed. 
-  """
+  """ Send a mock webhook event to test filters and endpoint delivery. Fetches the content, applies the filters for that event type and sends the event to your endpoint. Returns true if a filter matched (or the event type has no filters) and the event was sent, false if nothing matched, the webhook is not subscribed to the event type, or the uuid was not found. A non-200 response from your endpoint still returns true; mock events are not recorded as failed and cannot be replayed. """
   mockWebhookEvent(action: WebhookEventActionType!, contentUuid: String!, taddyType: String!, webhookId: ID!): Boolean
 
-  """ Replay all failed webhook events for a webhook. Returns the number of failed events stored for this webhook, which are then queued and resent asynchronously; it is not the number successfully redelivered. Mock events are never recorded as failed and are not replayed. 
-  """
+  """ Replay all failed webhook events for a webhook. Returns the number of failed events stored for this webhook, which are then queued and resent asynchronously; it is not the number successfully redelivered. Mock events are never recorded as failed and are not replayed. """
   replayFailedWebhookEvents(webhookId: ID!): Int
 
-  """ updateWebhookFilter is a full replace of the filter. If you want to update, read the filter first and send the whole thing back with your updates. When you read a filter back, each clause comes as one string, clauseN, in the form 'field' MATCHES 'regex' (null when the clause is not set). To turn it back into fieldN / valueN, split on the first ' MATCHES '. 
-  """
+  """ updateWebhookFilter is a full replace of the filter. If you want to update, read the filter first and send the whole thing back with your updates. When you read a filter back, each clause comes as one string, clauseN, in the form 'field' MATCHES 'regex' (null when the clause is not set). To turn it back into fieldN / valueN, split on the first ' MATCHES '. """
   updateWebhookFilter(filter: WebhookFilterInput!, filterUuid: ID!, webhookId: ID!): Webhook
 
-  """ Change a webhook's endpointUrl and events. webhookEvents replaces the whole list of events, so send every event you still want. Filters are not changed 
-  """
+  """ Change a webhook's endpointUrl and events. webhookEvents replaces the whole list of events, so send every event you still want. Filters are not changed """
   updateWebhookForUser(endpointUrl: String!, id: ID!, webhookEvents: [String!]!): Webhook
 }
 
@@ -875,8 +855,7 @@ type Person {
   """ The url of the person's image """
   imageUrl: String
 
-  """ (Experimental) Whether the person has been extracted automatically from transcript 
-  """
+  """ (Experimental) Whether the person has been extracted automatically from transcript """
   isAutoGenerated: Boolean @deprecated(reason: "We no longer auto-generate persons from transcripts")
 
   """ The name of the person """
@@ -900,8 +879,7 @@ enum PodcastContentType {
 
 """ Podcast Episode Details """
 type PodcastEpisode {
-  """ Alternate enclosures available for this episode (different formats, qualities, video) 
-  """
+  """ Alternate enclosures available for this episode (different formats, qualities, video) """
   alternateEnclosureUrlsWithDetails: [AlternateEnclosureLink]
 
   """ Link to Audio Content for the episode"""
@@ -913,8 +891,7 @@ type PodcastEpisode {
   """ A list of urls where you can download chapter details """
   chaptersUrls: [String]
 
-  """ A list of urls where you can download chapter details, including more details 
-  """
+  """ A list of urls where you can download chapter details, including more details """
   chaptersUrlsWithDetails: [ChapterLink]
 
   """ Date when the episode was published (Epoch time in seconds) """
@@ -922,8 +899,7 @@ type PodcastEpisode {
 
   """ The description for a episode """
   description(
-    """ (Optional) Option to remove the html tags from the description or leave the description as is (which might include html tags). Default is false (do not strip html tags from description).
-    """
+    """ (Optional) Option to remove the html tags from the description or leave the description as is (which might include html tags). Default is false (do not strip html tags from description)."""
     shouldStripHtmlTags: Boolean
   ): String
 
@@ -939,8 +915,7 @@ type PodcastEpisode {
   """ Episode Type ie) trailer, bonus or full """
   episodeType: PodcastEpisodeType
 
-  """ File Length of Content. Typed as Float (not Int) to support 64-bit integers (very large files) 
-  """
+  """ File Length of Content. Typed as Float (not Int) to support 64-bit integers (very large files) """
   fileLength: Float
 
   """ Exact File Type of Content """
@@ -949,16 +924,13 @@ type PodcastEpisode {
   """ An episode's unique identifier from its RSS feed """
   guid: String
 
-  """ A different hash means that details for this episode have updated since the last hash 
-  """
+  """ A different hash means that details for this episode have updated since the last hash """
   hash: String
 
-  """ Cover Art for the episode (it may be different than podcast cover art) 
-  """
+  """ Cover Art for the episode (it may be different than podcast cover art) """
   imageUrl: String
 
-  """ If the content has violated Taddy's distribution policies for illegal or harmful content it will be blocked from getting any updates 
-  """
+  """ If the content has violated Taddy's distribution policies for illegal or harmful content it will be blocked from getting any updates """
   isBlocked: Boolean
 
   """ If the episode contain's explicit content """
@@ -970,8 +942,7 @@ type PodcastEpisode {
   """ The name of an episode """
   name: String
 
-  """ People listed on the episode including their roles (Host, Guest, etc) 
-  """
+  """ People listed on the episode including their roles (Host, Guest, etc) """
   persons: [Person]
 
   """ Details on the podcast for which this episode belongs to """
@@ -980,46 +951,36 @@ type PodcastEpisode {
   """ Season Number (if provided) """
   seasonNumber: Int
 
-  """ The subtitle of an episode (shorter version of episode description, limited to 255 characters long) 
-  """
+  """ The subtitle of an episode (shorter version of episode description, limited to 255 characters long) """
   subtitle: String
 
-  """ Status of whether a transcript has already been generated for this episode. Regardless of this status, Taddy API can generate a transcript on-demand when you request one (see transcript or getEpisodeTranscript). 
-  """
+  """ Status of whether a transcript has already been generated for this episode. Regardless of this status, Taddy API can generate a transcript on-demand when you request one (see transcript or getEpisodeTranscript). """
   taddyTranscribeStatus: PodcastEpisodeTranscriptionStatus
 
-  """ Downloads the transcript, parses it and returns an array of text in paragraphs. 
-  """
+  """ Downloads the transcript, parses it and returns an array of text in paragraphs. """
   transcript(
-    """ (Optional) If the transcript is not available, use Taddy's on-demand transcription feature to generate one. Default is true. On-demand transcription takes ~10 seconds for every 1 hour of audio transcribed. Also, consider using getEpisodeTranscript to offload getting the transcript to another query. 
-    """
+    """ (Optional) If the transcript is not available, use Taddy's on-demand transcription feature to generate one. Default is true. On-demand transcription takes ~10 seconds for every 1 hour of audio transcribed. Also, consider using getEpisodeTranscript to offload getting the transcript to another query. """
     useOnDemandCreditsIfNeeded: Boolean
 
-    """ (Optional) Only return a transcript if it is provided by the podcast itself. If the podcast does not provide a transcript, Taddy will not generate one and will return null instead. Takes precedence over useOnDemandCreditsIfNeeded. Default is false. 
-    """
+    """ (Optional) Only return a transcript if it is provided by the podcast itself. If the podcast does not provide a transcript, Taddy will not generate one and will return null instead. Takes precedence over useOnDemandCreditsIfNeeded. Default is false. """
     useOnlyPodcastProvidedTranscript: Boolean
   ): [String]
 
-  """ A list of urls where you can download the transcript for this episode (podcast-provided and Taddy-generated, if available) 
-  """
+  """ A list of urls where you can download the transcript for this episode (podcast-provided and Taddy-generated, if available) """
   transcriptUrls: [String]
 
-  """ A list of urls where you can download the transcript for this episode, including more details (type, language, timecodes, if it is a Taddy-generated transcript) 
-  """
+  """ A list of urls where you can download the transcript for this episode, including more details (type, language, timecodes, if it is a Taddy-generated transcript) """
   transcriptUrlsWithDetails: [TranscriptLink]
 
-  """ Download the transcript, parses it and return an array of transcript items (which includes text, speakers and timecodes) 
-  """
+  """ Download the transcript, parses it and return an array of transcript items (which includes text, speakers and timecodes) """
   transcriptWithSpeakersAndTimecodes(
     """ (Optional) Style option for transcript. Default is PARAGRAPH"""
     style: TranscriptItemStyle
 
-    """ (Optional) If the transcript is not available, use Taddy's on-demand transcription feature to generate one. Default is true. On-demand transcription takes ~10 seconds for every 1 hour of audio transcribed. Also, consider using getEpisodeTranscript to offload getting the transcript to another query. 
-    """
+    """ (Optional) If the transcript is not available, use Taddy's on-demand transcription feature to generate one. Default is true. On-demand transcription takes ~10 seconds for every 1 hour of audio transcribed. Also, consider using getEpisodeTranscript to offload getting the transcript to another query. """
     useOnDemandCreditsIfNeeded: Boolean
 
-    """ (Optional) Only return a transcript if it is provided by the podcast itself. If the podcast does not provide a transcript, Taddy will not generate one and will return null instead. Takes precedence over useOnDemandCreditsIfNeeded. Default is false. 
-    """
+    """ (Optional) Only return a transcript if it is provided by the podcast itself. If the podcast does not provide a transcript, Taddy will not generate one and will return null instead. Takes precedence over useOnDemandCreditsIfNeeded. Default is false. """
     useOnlyPodcastProvidedTranscript: Boolean
   ): [TranscriptItem]
 
@@ -1050,16 +1011,13 @@ enum PodcastEpisodeType {
 
 """ Podcast Details """
 type PodcastSeries {
-  """ Name of the Podcast creator (the podcast creator and the owner of the podcast feed can be different)
-  """
+  """ Name of the Podcast creator (the podcast creator and the owner of the podcast feed can be different)"""
   authorName: String
 
-  """ A hash of all episode details. It may be useful for you to save this property in your database and compare it to know if there are any new or updated episodes since the last time you checked 
-  """
+  """ A hash of all episode details. It may be useful for you to save this property in your database and compare it to know if there are any new or updated episodes since the last time you checked """
   childrenHash: String
 
-  """ Podcast's Content Type (Is the podcast primarily an Audio or Video Podcast) 
-  """
+  """ Podcast's Content Type (Is the podcast primarily an Audio or Video Podcast) """
   contentType: PodcastContentType
 
   """ Copyright details for the podcast """
@@ -1070,8 +1028,7 @@ type PodcastSeries {
 
   """ The description for a podcast """
   description(
-    """ (Optional) Option to remove the html tags from the description or leave the description as is (which may include html tags). Default is false (leave description as is).
-    """
+    """ (Optional) Option to remove the html tags from the description or leave the description as is (which may include html tags). Default is false (leave description as is)."""
     shouldStripHtmlTags: Boolean
   ): String
 
@@ -1080,43 +1037,35 @@ type PodcastSeries {
 
   """ A list of episodes for this podcast """
   episodes(
-    """ (Optional) The option to show episodes that were once on the RSS feed but have now been removed. Default is false (do not include removed episodes) 
-    """
+    """ (Optional) The option to show episodes that were once on the RSS feed but have now been removed. Default is false (do not include removed episodes) """
     includeRemovedEpisodes: Boolean
 
-    """ (Optional) Return up to this number of episodes. Default is 10, Max value allowed is 25 results per page 
-    """
+    """ (Optional) Return up to this number of episodes. Default is 10, Max value allowed is 25 results per page """
     limitPerPage: Int
 
-    """ (Optional) Taddy paginates the results returned. Default is 1, Max value allowed is 1000 
-    """
+    """ (Optional) Taddy paginates the results returned. Default is 1, Max value allowed is 1000 """
     page: Int
 
-    """ (Optional) Only to be used when sortOrder is SEARCH. Filters through the title & description of episodes for the searchTerm 
-    """
+    """ (Optional) Only to be used when sortOrder is SEARCH. Filters through the title & description of episodes for the searchTerm """
     searchTerm: String
 
-    """ (Optional) Returns episodes based on SortOrder. Default is LATEST (newest episodes first), another option is OLDEST (oldest episodes first), and another option is SEARCH (pass in the property searchTerm) to filter for episodes by title or description. 
-    """
+    """ (Optional) Returns episodes based on SortOrder. Default is LATEST (newest episodes first), another option is OLDEST (oldest episodes first), and another option is SEARCH (pass in the property searchTerm) to filter for episodes by title or description. """
     sortOrder: SortOrder
   ): [PodcastEpisode]
 
   """ Details on how often the podcast is checked for new episodes """
   feedRefreshDetails: FeedRefreshDetails
 
-  """ A podcast can belong to multiple genres but they are listed in order of importance. Limit of 5 genres per podcast
-  """
+  """ A podcast can belong to multiple genres but they are listed in order of importance. Limit of 5 genres per podcast"""
   genres: [Genre]
 
-  """ A hash of all podcast details. It may be useful for you to save this property in your database and compare it to know if any podcast details have updated since the last time you checked 
-  """
+  """ A hash of all podcast details. It may be useful for you to save this property in your database and compare it to know if any podcast details have updated since the last time you checked """
   hash: String
 
   """ The cover art for a podcast """
   imageUrl: String
 
-  """ If the content has violated Taddy's distribution policies for illegal or harmful content it will be blocked from getting any updates 
-  """
+  """ If the content has violated Taddy's distribution policies for illegal or harmful content it will be blocked from getting any updates """
   isBlocked: Boolean
 
   """ (Old version) If the podcast is finished / complete """
@@ -1128,8 +1077,7 @@ type PodcastSeries {
   """ Boolean for if the podcast contain's explicit content """
   isExplicitContent: Boolean
 
-  """ itunesId for the podcast. Typed as Float (not Int) to support 64-bit integers 
-  """
+  """ itunesId for the podcast. Typed as Float (not Int) to support 64-bit integers """
   itunesId: Float
 
   """ Additional info from itunes on the podcast """
@@ -1141,8 +1089,7 @@ type PodcastSeries {
   """ The name (title) for a podcast """
   name: String
 
-  """ People listed on the podcast including their roles (Host, Guest, etc) 
-  """
+  """ People listed on the podcast including their roles (Host, Guest, etc) """
   persons: [Person]
 
   """ The popularity of the podcast. ex) TOP_200, TOP_1000 etc """
@@ -1160,14 +1107,12 @@ type PodcastSeries {
   """ Podcast type (serial or episodic) """
   seriesType: PodcastSeriesType
 
-  """ Whether Taddy API has already transcribed the back catalog of previous episodes and is automatically transcribing new episodes for this podcast. Regardless of this status, Taddy API can generate a transcript for any episode on-demand when you request one (see PodcastEpisode.transcript or getEpisodeTranscript). 
-  """
+  """ Whether Taddy API has already transcribed the back catalog of previous episodes and is automatically transcribing new episodes for this podcast. Regardless of this status, Taddy API can generate a transcript for any episode on-demand when you request one (see PodcastEpisode.transcript or getEpisodeTranscript). """
   taddyTranscribeStatus: PodcastSeriesTranscriptionStatus
 
   """ The number of episodes for this podcast """
   totalEpisodesCount(
-    """ (Optional) Option to include episodes that were once on the RSS feed but have now been removed. Default is false (do not include removed episodes) 
-    """
+    """ (Optional) Option to include episodes that were once on the RSS feed but have now been removed. Default is false (do not include removed episodes) """
     includeRemovedEpisodes: Boolean
   ): Int
 
@@ -1214,8 +1159,7 @@ type PopularityResult {
   popularityRankId: ID!
 }
 
-""" Please go to https://taddy.org/developers for full documentation of the API 
-"""
+""" Please go to https://taddy.org/developers for full documentation of the API """
 type Query {
   """ Get remaining API requests"""
   getApiRequestsRemaining: Int
@@ -1227,12 +1171,10 @@ type Query {
     """ (Optional) Style option for transcript. Default is PARAGRAPH"""
     style: TranscriptItemStyle
 
-    """ (Optional) If the transcript is not available, use Taddy's on-demand transcription feature to generate one. Default is true. On-demand transcription takes ~10 seconds for every 1 hour of audio transcribed. 
-    """
+    """ (Optional) If the transcript is not available, use Taddy's on-demand transcription feature to generate one. Default is true. On-demand transcription takes ~10 seconds for every 1 hour of audio transcribed. """
     useOnDemandCreditsIfNeeded: Boolean
 
-    """ (Optional) Only return a transcript if it is provided by the podcast itself. If the podcast does not provide a transcript, Taddy will not generate one and will return null instead. Takes precedence over useOnDemandCreditsIfNeeded. Default is false. 
-    """
+    """ (Optional) Only return a transcript if it is provided by the podcast itself. If the podcast does not provide a transcript, Taddy will not generate one and will return null instead. Takes precedence over useOnDemandCreditsIfNeeded. Default is false. """
     useOnlyPodcastProvidedTranscript: Boolean
 
     """ Taddy's unique identifier (uuid) for the episode """
@@ -1241,27 +1183,22 @@ type Query {
 
   """ Get details on a Podcast """
   getItunesInfo(
-    """ Get ItunesInfo on a podcast by the podcast's itunesId. Typed as Float (not Int) to support 64-bit integers 
-    """
+    """ Get ItunesInfo on a podcast by the podcast's itunesId. Typed as Float (not Int) to support 64-bit integers """
     itunesId: Float
 
-    """ Get ItunesInfo on a podcast by the podcast's unique identifier (uuid) 
-    """
+    """ Get ItunesInfo on a podcast by the podcast's unique identifier (uuid) """
     uuid: ID
   ): iTunesInfo
 
   """ Get the newly released episodes for a list of podcasts """
   getLatestPodcastEpisodes(
-    """ Allows for pagination. The number of episodes to return per page. Default is 25. Max value is 50 
-    """
+    """ Allows for pagination. The number of episodes to return per page. Default is 25. Max value is 50 """
     limitPerPage: Int
 
-    """ Allows for pagination. The page number to return. Default is 1. Max value is 20 
-    """
+    """ Allows for pagination. The page number to return. Default is 1. Max value is 20 """
     page: Int
 
-    """ An Array of urls to the RSS feeds for the podcasts. Max 1000 rssUrls allowed 
-    """
+    """ An Array of urls to the RSS feeds for the podcasts. Max 1000 rssUrls allowed """
     rssUrls: [String]
 
     """ An Array of taddy's unique identifier (uuid). Max 1000 uuids allowed """
@@ -1283,18 +1220,18 @@ type Query {
   """ Get your Developer Applications """
   getMyDeveloperWebhooks(limit: Int): UserWebhooks
 
+  """ Get the support tickets you created (newest first), to check which have been resolved. page is 1-1000 (default 1), limitPerPage is 1-25 (default 10) """
+  getMySupportTickets(limitPerPage: Int, page: Int, status: SupportTicketStatus): UserSupportTickets
+
   """ Get details on a podcast episode"""
   getPodcastEpisode(
-    """ An episode's guid (from its RSS Feed). Note: guid is not guaranteed to be unique (two different podcasts can use the same guid for two different episodes). If you know the podcast series uuid, you can use seriesUuidForLookup to filter the results to only return episodes for that series 
-    """
+    """ An episode's guid (from its RSS Feed). Note: guid is not guaranteed to be unique (two different podcasts can use the same guid for two different episodes). If you know the podcast series uuid, you can use seriesUuidForLookup to filter the results to only return episodes for that series """
     guid: String
 
-    """ The name (title) of a episode. Note: Multiple episodes can have the exact same name. If you know the podcast series uuid, you can use seriesUuidForLookup to filter the results to only return episodes for that series 
-    """
+    """ The name (title) of a episode. Note: Multiple episodes can have the exact same name. If you know the podcast series uuid, you can use seriesUuidForLookup to filter the results to only return episodes for that series """
     name: String
 
-    """ If you know the podcast series uuid, you can use this to filter the results to only return episodes for that series. This is useful if you are if you using this query and passing in guid or name and want to ensure you get the correct episode 
-    """
+    """ If you know the podcast series uuid, you can use this to filter the results to only return episodes for that series. This is useful if you are if you using this query and passing in guid or name and want to ensure you get the correct episode """
     seriesUuidForLookup: ID
 
     """ Taddy's unique identifier (uuid) """
@@ -1303,12 +1240,10 @@ type Query {
 
   """ Get details on a Podcast """
   getPodcastSeries(
-    """ Get a podcast by its iTunes ID. Typed as Float (not Int) to support 64-bit integers 
-    """
+    """ Get a podcast by its iTunes ID. Typed as Float (not Int) to support 64-bit integers """
     itunesId: Float
 
-    """ The name (title) of a podcast. Note: Multiple podcasts can have the exact same name, in that case we always try to return the most popular podcast (based on infomation we have on the podcast popularity)
-    """
+    """ The name (title) of a podcast. Note: Multiple podcasts can have the exact same name, in that case we always try to return the most popular podcast (based on infomation we have on the podcast popularity)"""
     name: String
 
     """ Get a podcast by its RSS feed url """
@@ -1326,16 +1261,13 @@ type Query {
     """ (Optional) Allows for filtering by language. """
     filterByLanguage: Language
 
-    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) 
-    """
+    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) """
     limitPerPage: Int
 
-    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. 
-    """
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. """
     page: Int
 
-    """ (Optional) The type of content you want to get ranked by popularity. Only PODCASTSERIES is supported for now. 
-    """
+    """ (Optional) The type of content you want to get ranked by popularity. Only PODCASTSERIES is supported for now. """
     taddyType: TaddyType
   ): PopularityResult
 
@@ -1344,16 +1276,13 @@ type Query {
     """ Which country do you want the Top Charts for."""
     country: Country!
 
-    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) 
-    """
+    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) """
     limitPerPage: Int
 
-    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. 
-    """
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. """
     page: Int
 
-    """ (Optional) The platform to check for top charts content. Default is APPLE_PODCASTS 
-    """
+    """ (Optional) The platform to check for top charts content. Default is APPLE_PODCASTS """
     source: TopChartsSource
 
     """ The type of content you want to get top charts information on. """
@@ -1362,23 +1291,19 @@ type Query {
 
   """ Get Top Charts By Genre """
   getTopChartsByGenres(
-    """ (Optional) We filter the results by country (needed for PODCASTEPISODE taddyType)
-    """
+    """ (Optional) We filter the results by country (needed for PODCASTEPISODE taddyType)"""
     filterByCountry: Country
 
     """ Which genres do you want the Top Charts for."""
     genres: [Genre!]
 
-    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) 
-    """
+    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) """
     limitPerPage: Int
 
-    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. 
-    """
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 8. """
     page: Int
 
-    """ (Optional) The platform to check for top charts content. Default is APPLE_PODCASTS 
-    """
+    """ (Optional) The platform to check for top charts content. Default is APPLE_PODCASTS """
     source: TopChartsSource
 
     """ The type of content you want to get top charts information on. """
@@ -1393,115 +1318,91 @@ type Query {
 
   """ Get Search results details for a term """
   search(
-    """ (Optional - for COMICSERIES) Filter for if a comic's series layout is VERTICAL_SCROLL_TOP_TO_BOTTOM or PAGE etc. Default is null (include all comic layouts). This filter is only for COMICSERIES and will return an empty array for any other type 
-    """
+    """ (Optional - for COMICSERIES) Filter for if a comic's series layout is VERTICAL_SCROLL_TOP_TO_BOTTOM or PAGE etc. Default is null (include all comic layouts). This filter is only for COMICSERIES and will return an empty array for any other type """
     filterForComicSeriesLayout: [ComicSeriesLayout]
 
-    """ (Optional - for COMICSERIES) Filter for if a comic's series type is WEBTOON, MANGA, etc. Default is null (include all comic types). This filter is only for COMICSERIES and will return an empty array for any other type 
-    """
+    """ (Optional - for COMICSERIES) Filter for if a comic's series type is WEBTOON, MANGA, etc. Default is null (include all comic types). This filter is only for COMICSERIES and will return an empty array for any other type """
     filterForComicSeriesType: [ComicSeriesType]
 
-    """ (Optional - for COMICSERIES) Filter for only content that has a certain content rating. This filter is only for COMICSERIES and will return an empty array for any other types. For PODCASTSERIES & PODCASTEPISODE use isSafeMode 
-    """
+    """ (Optional - for COMICSERIES) Filter for only content that has a certain content rating. This filter is only for COMICSERIES and will return an empty array for any other types. For PODCASTSERIES & PODCASTEPISODE use isSafeMode """
     filterForContentRatings: [ContentRating]
 
-    """ (Optional - for CREATOR) Filter for only creators with a specific role in creating the content. This filter is only for CREATOR and will return an empty array for any other type 
-    """
+    """ (Optional - for CREATOR) Filter for only creators with a specific role in creating the content. This filter is only for CREATOR and will return an empty array for any other type """
     filterForContentRoles: [ContentRole]
 
     """ (Optional) Filter for only content made in certain countries """
     filterForCountries: [Country]
 
-    """ (Optional - for PODCASTEPISODE) Filter for episodes that have a duration greater than a certain number of seconds. This filter is only for PODCASTEPISODE and will return an empty array for any other type 
-    """
+    """ (Optional - for PODCASTEPISODE) Filter for episodes that have a duration greater than a certain number of seconds. This filter is only for PODCASTEPISODE and will return an empty array for any other type """
     filterForDurationGreaterThan: Int
 
-    """ (Optional - for PODCASTEPISODE) Filter for episodes that have a duration less than a certain number of seconds. This filter is only for PODCASTEPISODE and will return an empty array for any other type 
-    """
+    """ (Optional - for PODCASTEPISODE) Filter for episodes that have a duration less than a certain number of seconds. This filter is only for PODCASTEPISODE and will return an empty array for any other type """
     filterForDurationLessThan: Int
 
-    """ (Optional - for COMICSERIES) Filter for only content that has a certain scopes for exclusive content. This filter is only for COMICSERIES and will return an empty array for any other type 
-    """
+    """ (Optional - for COMICSERIES) Filter for only content that has a certain scopes for exclusive content. This filter is only for COMICSERIES and will return an empty array for any other type """
     filterForExclusiveContent: [String]
 
     """ (Optional) Filter for only content from certain genres """
     filterForGenres: [Genre]
 
-    """ (Optional - for PODCASTEPISODE) Filter for episodes that have a transcript available. This filter is only for PODCASTEPISODE and will return an empty array for any other type 
-    """
+    """ (Optional - for PODCASTEPISODE) Filter for episodes that have a transcript available. This filter is only for PODCASTEPISODE and will return an empty array for any other type """
     filterForHasTranscript: Boolean
 
     """ (Optional) Filter for only content made in certain languages """
     filterForLanguages: [Language]
 
-    """ (Optional - for PODCASTSERIES & COMICSERIES) Filter for content that have an episode published after a certain date (Epoch time in seconds). This filter is only for PODCASTSERIES & COMICSERIES and will return an empty array for any other type 
-    """
+    """ (Optional - for PODCASTSERIES & COMICSERIES) Filter for content that have an episode published after a certain date (Epoch time in seconds). This filter is only for PODCASTSERIES & COMICSERIES and will return an empty array for any other type """
     filterForLastUpdatedAfter: Int
 
-    """ (Optional - for PODCASTSERIES & COMICSERIES) Filter for results that have an episode published before a certain date (Epoch time in seconds). This filter is only for PODCASTSERIES & COMICSERIES and will return an empty array for any other type 
-    """
+    """ (Optional - for PODCASTSERIES & COMICSERIES) Filter for results that have an episode published before a certain date (Epoch time in seconds). This filter is only for PODCASTSERIES & COMICSERIES and will return an empty array for any other type """
     filterForLastUpdatedBefore: Int
 
     """ (Optional) Filter for results that are not from certain series """
     filterForNotInSeriesUuids: [ID]
 
-    """ (Optional - for PODCASTSERIES & PODCASTEPISODE) Filter to return only AUDIO or VIDEO podcasts. Default is null (include both AUDIO & VIDEO podcasts). This filter is only for PODCASTSERIES & PODCASTEPISODE and will return an empty array for any other type 
-    """
+    """ (Optional - for PODCASTSERIES & PODCASTEPISODE) Filter to return only AUDIO or VIDEO podcasts. Default is null (include both AUDIO & VIDEO podcasts). This filter is only for PODCASTSERIES & PODCASTEPISODE and will return an empty array for any other type """
     filterForPodcastContentType: [PodcastContentType]
 
-    """ (Optional) Filter for results that are published after a certain date (Epoch time in seconds)
-    """
+    """ (Optional) Filter for results that are published after a certain date (Epoch time in seconds)"""
     filterForPublishedAfter: Int
 
-    """ (Optional) Filter for results that are published before a certain date (Epoch time in seconds) 
-    """
+    """ (Optional) Filter for results that are published before a certain date (Epoch time in seconds) """
     filterForPublishedBefore: Int
 
     """ (Optional) Filter for results only from certain series """
     filterForSeriesUuids: [ID]
 
-    """ (Optional - for COMICSERIES & CREATOR) Filter for only content that includes a certain tag. Tags are case sensitive and must be exact matches. This filter is only for COMICSERIES & CREATOR and will return an empty array for any other type 
-    """
+    """ (Optional - for COMICSERIES & CREATOR) Filter for only content that includes a certain tag. Tags are case sensitive and must be exact matches. This filter is only for COMICSERIES & CREATOR and will return an empty array for any other type """
     filterForTags: [String]
 
-    """ (Optional - for PODCASTSERIES) Filter for only content that has a certain total number of episodes. This filter is only for PODCASTSERIES and will return an empty array for any other type 
-    """
+    """ (Optional - for PODCASTSERIES) Filter for only content that has a certain total number of episodes. This filter is only for PODCASTSERIES and will return an empty array for any other type """
     filterForTotalEpisodesGreaterThan: Int
 
-    """ (Optional - for PODCASTSERIES) Filter for only content that has a certain total number of episodes. This filter is only for PODCASTSERIES and will return an empty array for any other type 
-    """
+    """ (Optional - for PODCASTSERIES) Filter for only content that has a certain total number of episodes. This filter is only for PODCASTSERIES and will return an empty array for any other type """
     filterForTotalEpisodesLessThan: Int
 
-    """ (Optional - for COMICSERIES) Filter for only content that has a certain total number of issues. This filter is only for COMICSERIES and will return an empty array for any other type 
-    """
+    """ (Optional - for COMICSERIES) Filter for only content that has a certain total number of issues. This filter is only for COMICSERIES and will return an empty array for any other type """
     filterForTotalIssuesGreaterThan: Int
 
-    """ (Optional - for COMICSERIES) Filter for only content that has a certain total number of issues. This filter is only for COMICSERIES and will return an empty array for any other type 
-    """
+    """ (Optional - for COMICSERIES) Filter for only content that has a certain total number of issues. This filter is only for COMICSERIES and will return an empty array for any other type """
     filterForTotalIssuesLessThan: Int
 
-    """ (Optional) Filter for certain types of content. Default is PODCASTSERIES. Possible values are PODCASTSERIES, PODCASTEPISODE, COMICSERIES, CREATOR 
-    """
+    """ (Optional) Filter for certain types of content. Default is PODCASTSERIES. Possible values are PODCASTSERIES, PODCASTEPISODE, COMICSERIES, CREATOR """
     filterForTypes: [SearchContentType]
 
-    """ (Optional) Choose to only return safe (not explicit) content or all content. Default is false (include everything, including explicit content) 
-    """
+    """ (Optional) Choose to only return safe (not explicit) content or all content. Default is false (include everything, including explicit content) """
     isSafeMode: Boolean
 
-    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) 
-    """
+    """ (Optional) The number of results per page. Default is 10. Max value is 25 (ie: that max results you can return in one query in 25) """
     limitPerPage: Int
 
-    """ (Optional) Choose which results are matched as valid search results. Default is MOST_TERMS. Possible values are MOST_TERMS (any of the words), ALL_TERMS (all of the words, in any order) and EXACT_PHRASE (the words together, in order) 
-    """
+    """ (Optional) Choose which results are matched as valid search results. Default is MOST_TERMS. Possible values are MOST_TERMS (any of the words), ALL_TERMS (all of the words, in any order) and EXACT_PHRASE (the words together, in order) """
     matchBy: SearchMatchType
 
-    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. 
-    """
+    """ (Optional) Allows for pagination. Default is 1 (ie: page 1 of the results). Max value is 20. """
     page: Int
 
-    """ (Optional) Choose how the results are sorted. Default is sort by EXACTNESS. Possible values are EXACTNESS and POPULARITY. 
-    """
+    """ (Optional) Choose how the results are sorted. Default is sort by EXACTNESS. Possible values are EXACTNESS and POPULARITY. """
     sortBy: SearchSortOrder
 
     """ The term you are searching for """
@@ -1531,8 +1432,7 @@ type SearchQueryResponseInfo {
   """ Identifier for the search query being sent """
   searchId: ID!
 
-  """ The number of milliseconds the uncached query took to search for results. If this query is already cached, this is immediately returned. 
-  """
+  """ The number of milliseconds the uncached query took to search for results. If this query is already cached, this is immediately returned. """
   took: Int
 }
 
@@ -1554,8 +1454,7 @@ type SearchRankingDetails {
   """ Identifier for the search query being sent """
   id: ID!
 
-  """ The ranking score for the search results from 100 to 0. The higher the score the more relevant the result. 
-  """
+  """ The ranking score for the search results from 100 to 0. The higher the score the more relevant the result. """
   rankingScore: Int
 
   """ The ranking score details as a JSON string """
@@ -1596,8 +1495,7 @@ type SearchResults {
   """ Ranking information for each search result  """
   rankingDetails: [SearchRankingDetails]
 
-  """ Additional information on the search results (Total # of results, # of pages, etc) 
-  """
+  """ Additional information on the search results (Total # of results, # of pages, etc) """
   responseDetails: [SearchResponseDetails]
 
   """ Identifier for the search query being sent (Used for caching) """
@@ -1615,6 +1513,42 @@ enum SortOrder {
   LATEST
   OLDEST
   SEARCH
+}
+
+""" A support ticket you created for Taddy, e.g. a broken or missing feed or unexpected behaviour """
+type SupportTicket {
+  """ (Optional) The url Taddy POSTs to when the ticket is resolved. If provided, we will POST a reponse to this url instead of emailing """
+  callbackUrl: String
+
+  """ What you reported """
+  comment: String
+
+  """ Date created (Epoch time in seconds) """
+  createdAt: Int
+
+  """ Taddy's note on what was done to resolve the ticket """
+  resolutionNote: String
+
+  """ Date resolved (Epoch time in seconds) """
+  resolvedAt: Int
+
+  """ The podcastseries the ticket is about (if any) """
+  seriesUuid: ID
+
+  """ If the ticket is open or resolved """
+  status: SupportTicketStatus
+
+  """ Taddy's unique identifier """
+  uuid: ID!
+}
+
+""" The status of a support ticket """
+enum SupportTicketStatus {
+  """ Taddy has not resolved the ticket yet """
+  OPEN
+
+  """ Taddy has resolved the ticket """
+  RESOLVED
 }
 
 """ Types of media available on Taddy """
@@ -1691,8 +1625,7 @@ type TranscriptLink {
   """ (Optional) If the transcript has timecodes """
   hasTimecodes: Boolean
 
-  """ If the transcript is exclusive to Taddy API Paid users. It uses a transcription credit to access it 
-  """
+  """ If the transcript is exclusive to Taddy API Paid users. It uses a transcription credit to access it """
   isTaddyExclusive: Boolean
 
   """ (Optional) The language of the transcript """
@@ -1703,6 +1636,15 @@ type TranscriptLink {
 
   """ The url to the transcript """
   url: String
+}
+
+""" Support tickets for a user """
+type UserSupportTickets {
+  """ The user's support tickets, newest first """
+  supportTickets: [SupportTicket]
+
+  """ The user id the support tickets belong to """
+  userId: ID
 }
 
 """ User Details for Developer Application Details """
@@ -1754,8 +1696,7 @@ enum WebhookEventActionType {
 
 """ A filter for a webhook (one row = one event type + clauses) """
 type WebhookFilter {
-  """ Clause 1 as one string: 'field1' MATCHES 'value1', with the regex exactly as stored. Null when the clause is not set. To compare with your own field and regex, split on the first ' MATCHES ' and remove the outer single quotes 
-  """
+  """ Clause 1 as one string: 'field1' MATCHES 'value1', with the regex exactly as stored. Null when the clause is not set. To compare with your own field and regex, split on the first ' MATCHES ' and remove the outer single quotes """
   clause1: String
 
   """ Clause 2, same format as clause1 """
@@ -1770,8 +1711,7 @@ type WebhookFilter {
   """ Clause 5, same format as clause1 """
   clause5: String
 
-  """ (Optional) Your description for this filter. Not used for matching but useful for your own internal use 
-  """
+  """ (Optional) Your description for this filter. Not used for matching but useful for your own internal use """
   description: String
 
   """ The event type this filter applies to (e.g. podcastepisode.created) """
@@ -1798,20 +1738,16 @@ type WebhookFilter {
 
 """ Input for creating/updating a filter """
 input WebhookFilterInput {
-  """ (Optional) A label for this filter. Not used for matching, so you can store your own key in it (e.g. watchlist:AAPL:name) 
-  """
+  """ (Optional) A label for this filter. Not used for matching, so you can store your own key in it (e.g. watchlist:AAPL:name) """
   description: String
 
-  """ The event type this filter applies to, in the form taddyType.action (e.g. podcastepisode.created). Must be an event type the webhook is subscribed to 
-  """
+  """ The event type this filter applies to, in the form taddyType.action (e.g. podcastepisode.created). Must be an event type the webhook is subscribed to """
   eventType: String!
 
-  """ (Optional) BlockList: content from these podcasts never matches. Each entry is a podcast uuid, rssUrl or itunesId 
-  """
+  """ (Optional) BlockList: content from these podcasts never matches. Each entry is a podcast uuid, rssUrl or itunesId """
   excludedUuids: [String]
 
-  """ (Optional) Clause 1: a field from the event payload (e.g. name, description, podcastSeries.genres). Valid fields depend on the taddyType in eventType. Must be set together with value1 
-  """
+  """ (Optional) Clause 1: a field from the event payload (e.g. name, description, podcastSeries.genres). Valid fields depend on the taddyType in eventType. Must be set together with value1 """
   field1: String
 
   """ (Optional) Clause 2, see field1 """
@@ -1826,12 +1762,10 @@ input WebhookFilterInput {
   """ (Optional) Clause 5, see field1 """
   field5: String
 
-  """ (Optional) AllowList: only content from these podcasts matches. Each entry is a podcast uuid, rssUrl or itunesId 
-  """
+  """ (Optional) AllowList: only content from these podcasts matches. Each entry is a podcast uuid, rssUrl or itunesId """
   includedUuids: [String]
 
-  """ (Optional) Clause 1: the regex that field1 must match. Case-insensitive, matched anywhere in the value, max 500 characters; * is not allowed (use .+ or a bounded repeat). All clauses in a filter must match (AND); any filter may match (OR) 
-  """
+  """ (Optional) Clause 1: the regex that field1 must match. Case-insensitive, matched anywhere in the value, max 500 characters; * is not allowed (use .+ or a bounded repeat). All clauses in a filter must match (AND); any filter may match (OR) """
   value1: String
 
   """ (Optional) Clause 2, see value1 """
@@ -1864,26 +1798,22 @@ type WebsubDetails {
 
 """ iTunes Info for a podcast """
 type iTunesInfo {
-  """ Base Url to the podcast's cover art from iTunes. NOTE: To get a working image, you need to pass in a size at the end of the url in the format {baseArtworkUrl}{size}x{size}bb.png ex {baseArtworkUrl}640x640bb.png 
-  """
+  """ Base Url to the podcast's cover art from iTunes. NOTE: To get a working image, you need to pass in a size at the end of the url in the format {baseArtworkUrl}{size}x{size}bb.png ex {baseArtworkUrl}640x640bb.png """
   baseArtworkUrl: String
 
-  """ Helper Url to the podcast's cover art from iTunes. Pass in an interger for the size of the image you want 
-  """
+  """ Helper Url to the podcast's cover art from iTunes. Pass in an interger for the size of the image you want """
   baseArtworkUrlOf(size: Int): String
 
   """ Country where the podcast is made """
   country: Country
 
-  """ A different hash signals that itunes information has changed since the last hash 
-  """
+  """ A different hash signals that itunes information has changed since the last hash """
   hash: String
 
   """ PodcastSeries linked to this iTunesInfo """
   podcastSeries: PodcastSeries
 
-  """ Publisher Id from iTunes. Typed as Float (not Int) to support 64-bit integers 
-  """
+  """ Publisher Id from iTunes. Typed as Float (not Int) to support 64-bit integers """
   publisherId: Float
 
   """ Publisher name from iTunes """

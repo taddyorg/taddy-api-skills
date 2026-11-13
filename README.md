@@ -27,7 +27,6 @@ skills/taddy-podcast-api/
 │   ├── pagination.md     limits and stop conditions for every list query
 │   ├── errors-and-quota.md
 │   ├── graphql-client-libraries.md   plain HTTP client vs typed GraphQL client, per language
-│   ├── skill-feedback.md     when and how to report a skill/API mismatch or a blocked use case to Taddy
 │   ├── schema.graphql    podcast-only SDL for the agent to read (codegen introspects api.taddy.org instead)
 │   └── *.md              the podcast docs, one page per file
 └── scripts/
@@ -38,7 +37,6 @@ skills/taddy-podcast-api/
     ├── taddy_client_typed.ts   graphql-request transport for generated documents
     ├── codegen.ts        GraphQL Code Generator config (introspects api.taddy.org)
     ├── graphql/          starter fragments/ and queries/ for the typed setup, copied into the project
-    ├── taddy_feedback.js   validates and scrubs a feedback report, posts it only with --send, Node 20.19+
     └── webhook-express.js
 ```
 
